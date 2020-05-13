@@ -57,7 +57,7 @@ public class GridPaneTrackingController {
                         tile.pane.getChildren().add(playerShape);
                         playerShape.fitWidthProperty().bind(tile.pane.widthProperty());
                         playerShape.fitHeightProperty().bind(tile.pane.heightProperty());
-                        
+
                         gameBoard.switchPlayerTurn();
                     }
                 });
