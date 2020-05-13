@@ -16,9 +16,6 @@ public class Main extends Application {
         primaryStage.setTitle("Tic-Tac-Toe");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
-
-//        Controller controller = fxmlLoader.getController();
-//        controller.highlightGridPaneTile();
     }
 
     public static void main(String[] args) {
