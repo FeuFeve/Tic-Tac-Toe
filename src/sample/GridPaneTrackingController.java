@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.util.List;
@@ -31,8 +32,8 @@ public class GridPaneTrackingController {
         }
 
         // TODO : modify
-        Player player1 = new Player("Player 1", Colors.player1Color);
-        Player player2 = new Player("Player 2", Colors.player2Color);
+        Player player1 = new Player("Player 1", Sprites.cross);
+        Player player2 = new Player("Player 2", Sprites.circle);
 
         createGameBoard(player1, player2, rows, columns);
     }
@@ -50,7 +51,13 @@ public class GridPaneTrackingController {
                     if (tile.owner == null) {
                         System.out.println("Clicked a tile.");
                         tile.owner = gameBoard.currentPlayer;
-                        tile.pane.setStyle("-fx-background-color: " + gameBoard.currentPlayer.color);
+
+                        // Set the player's shape on the tile
+                        ImageView playerShape = new ImageView(gameBoard.currentPlayer.shape);
+                        tile.pane.getChildren().add(playerShape);
+                        playerShape.fitWidthProperty().bind(tile.pane.widthProperty());
+                        playerShape.fitHeightProperty().bind(tile.pane.heightProperty());
+                        
                         gameBoard.switchPlayerTurn();
                     }
                 });

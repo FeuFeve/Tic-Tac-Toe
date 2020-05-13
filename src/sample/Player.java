@@ -1,13 +1,15 @@
 package sample;
 
+import javafx.scene.image.Image;
+
 public class Player {
 
     String pseudo;
-    String color;
+    Image shape;
 
 
-    Player(String pseudo, String color) {
+    Player(String pseudo, Image shape) {
         this.pseudo = pseudo;
-        this.color = color;
+        this.shape = shape;
     }
 }
