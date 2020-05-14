@@ -49,7 +49,6 @@ public class GridPaneTrackingController {
                 Tile tile = row.get(y);
                 tile.pane.setOnMouseClicked(e -> {
                     if (tile.owner == null) {
-                        System.out.println("Clicked a tile.");
                         tile.owner = gameBoard.currentPlayer;
 
                         // Set the player's shape on the tile
