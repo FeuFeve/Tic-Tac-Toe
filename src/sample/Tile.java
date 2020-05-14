@@ -8,12 +8,18 @@ public class Tile {
 
     Pane pane;
 
+    int x;
+    int y;
     Player owner;
 
     ImageView background;
 
 
-    Tile(Image backgroundImage) {
+    Tile(int x, int y, Image backgroundImage) {
+        this.x = x;
+        this.y = y;
+
+        // Background image
         background = new ImageView(backgroundImage);
         pane = new Pane();
         pane.getChildren().add(background);
@@ -21,8 +27,8 @@ public class Tile {
         background.fitHeightProperty().bind(pane.heightProperty());
     }
 
-    Tile(Image backgroundImage, int rotation) {
-        this(backgroundImage);
+    Tile(int x, int y, Image backgroundImage, int rotation) {
+        this(x, y, backgroundImage);
         background.setRotate(rotation);
     }
 }
