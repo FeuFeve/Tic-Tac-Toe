@@ -1,4 +1,4 @@
-package sample;
+package Game;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game_window.fxml"));
         Parent root = fxmlLoader.load();
 
         primaryStage.setTitle("Tic-Tac-Toe");

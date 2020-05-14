@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="420.0" prefWidth="600.0" style="-fx-background-color: #13132C;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Game.MainMenuController">
+   <children>
+      <Canvas height="200.0" width="200.0" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="27.0" prefHeight="46.0" prefWidth="600.0" text="Y e t   A n o t h e r   T i c - T a c - T o e   G a m e" textAlignment="CENTER" textFill="#ba4e1c" wrapText="true">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Label>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F2EFE9; -fx-opacity: 0.75;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <Pane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label layoutX="32.0" layoutY="8.0" text="G a m e   m o d e">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <ChoiceBox layoutX="26.0" layoutY="42.0" prefWidth="150.0" />
+                  <Label layoutX="52.0" layoutY="77.0" text="P s e u d o s">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField alignment="CENTER" layoutX="26.0" layoutY="111.0" style="-fx-background-color: #FF1000;" text="Player 1" />
+                  <TextField alignment="CENTER" layoutX="25.0" layoutY="144.0" style="-fx-background-color: #00FF73;" text="Player 2" />
+                  <Button layoutX="52.0" layoutY="188.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="Play !" />
+               </children>
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Pane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

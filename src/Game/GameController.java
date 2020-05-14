@@ -1,4 +1,4 @@
-package sample;
+package Game;
 
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
@@ -7,7 +7,7 @@ import javafx.scene.layout.*;
 import java.util.List;
 
 
-public class GridPaneController {
+public class GameController {
 
     @FXML
     private GridPane grid;
