@@ -10,7 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("game_window.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main_menu.fxml"));
         Parent root = fxmlLoader.load();
 
         primaryStage.setTitle("Tic-Tac-Toe");
