@@ -1,16 +1,22 @@
 package Game;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.List;
 
 
 public class GameController {
 
-    @FXML
-    private GridPane grid;
+    @FXML private GridPane grid;
 
     private GameBoard gameBoard;
     private boolean toReset;
@@ -135,5 +141,19 @@ public class GameController {
                 return currentCombo;
             }
         }
+    }
+
+    @FXML
+    private void loadMainMenu(ActionEvent event) throws IOException {
+        // Get the game scene
+        Parent gameRoot = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
+        Scene gameScene = new Scene(gameRoot);
+
+        // Get the stage
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+
+        // Set the game scene to the stage
+        window.setScene(gameScene);
+        window.show();
     }
 }

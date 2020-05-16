@@ -10,7 +10,7 @@
 <AnchorPane prefHeight="420.0" prefWidth="600.0" style="-fx-background-color: #13132C;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Game.MainMenuController">
    <children>
       <Canvas height="200.0" width="200.0" />
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutY="27.0" prefHeight="46.0" prefWidth="600.0" text="Y e t   A n o t h e r   T i c - T a c - T o e   G a m e" textAlignment="CENTER" textFill="#ba4e1c" wrapText="true">
+      <Label fx:id="gameTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="27.0" prefHeight="46.0" prefWidth="600.0" text="Y e t   A n o t h e r   T i c - T a c - T o e   G a m e" textAlignment="CENTER" textFill="#ba4e1c" wrapText="true">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
