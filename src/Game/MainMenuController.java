@@ -1,5 +1,9 @@
 package Game;
 
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.Timeline;
+import javafx.animation.Transition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,13 +14,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenuController {
+
+    @FXML private Label gameTitle;
 
     @FXML private ChoiceBox<String> gameModeBox;
     @FXML private TextField pseudo1;
@@ -38,6 +48,29 @@ public class MainMenuController {
         // Init the game mode choice box
         gameModeBox.setValue(gameModes.get(0));
         gameModeBox.setItems(gameModes);
+
+        // Animate the title
+        ScaleTransition st = new ScaleTransition(Duration.millis(2000), gameTitle);
+        st.setByX(-0.2);
+        st.setByY(-0.2);
+        st.setAutoReverse(true);
+        st.setCycleCount(Timeline.INDEFINITE);
+        st.play();
+
+        // Animate the crosses/circles
+        List<FadeTransition> fadeTransitions = new ArrayList<>();
+        fadeTransitions.add(new FadeTransition(Duration.millis(2000), player1Cross1));
+        fadeTransitions.add(new FadeTransition(Duration.millis(2000), player1Cross2));
+        fadeTransitions.add(new FadeTransition(Duration.millis(2000), player2Circle1));
+        fadeTransitions.add(new FadeTransition(Duration.millis(2000), player2Circle2));
+
+        for (FadeTransition ft : fadeTransitions) {
+            ft.setFromValue(1);
+            ft.setToValue(0.1);
+            ft.setAutoReverse(true);
+            ft.setCycleCount(Timeline.INDEFINITE);
+            ft.play();
+        }
     }
 
     @FXML
