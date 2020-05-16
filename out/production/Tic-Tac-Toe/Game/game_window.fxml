@@ -1,8 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="600.0" style="-fx-background-color: #F2EFE9;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Game.GameController">
+   <Pane prefHeight="420.0" prefWidth="182.0">
+      <effect>
+         <DropShadow/>
+      </effect>
+      <Button layoutX="16.0" layoutY="384.0" mnemonicParsing="false" onAction="#loadMainMenu" prefWidth="150.0"
+              style="-fx-background-color: #FFAAAA;" text="Back to main menu">
+         <font>
+            <Font name="Consolas" size="12.0"/>
+         </font>
+      </Button>
+      <Button layoutX="16.0" layoutY="50.0" mnemonicParsing="false" prefWidth="70.0"
+              style="-fx-background-color: #AAFFAA;" text="Save">
+         <font>
+            <Font name="Consolas" size="12.0"/>
+         </font>
+      </Button>
+      <Button layoutX="96.0" layoutY="50.0" mnemonicParsing="false" prefWidth="70.0"
+              style="-fx-background-color: #FFFFAA;" text="Load">
+         <font>
+            <Font name="Consolas" size="12.0"/>
+         </font>
+      </Button>
+      <Button layoutX="16.0" layoutY="23.0" mnemonicParsing="false" prefWidth="150.0"
+              style="-fx-background-color: #AAFFFF;" text="New game">
+         <font>
+            <Font name="Consolas" size="12.0"/>
+         </font>
+      </Button>
+   </Pane>
    <Pane layoutX="180.0" prefHeight="420.0" prefWidth="420.0" style="-fx-background-color: #2E0734;">
       <GridPane fx:id="grid" prefHeight="420.0" prefWidth="420.0">
       </GridPane>

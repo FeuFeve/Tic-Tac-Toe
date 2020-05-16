@@ -43,8 +43,21 @@ public class MainMenuController {
     @FXML
     private void initialize() {
         // Init the game mode choice box
-        gameModeBox.setValue(gameModes.get(0));
+        if (DataManager.gameMode == null) {
+            gameModeBox.setValue(gameModes.get(0));
+        }
+        else {
+            gameModeBox.setValue(DataManager.gameMode);
+        }
         gameModeBox.setItems(gameModes);
+
+        // Init the players' pseudos
+        if (DataManager.player1 != null && !DataManager.player1.pseudo.equals("Player 1")) {
+            pseudo1.setText(DataManager.player1.pseudo);
+        }
+        if (DataManager.player2 != null && !DataManager.player2.pseudo.equals("Player 2")) {
+            pseudo2.setText(DataManager.player2.pseudo);
+        }
 
         // Animate the title
         ScaleTransition st = new ScaleTransition(Duration.millis(2000), gameTitle);
@@ -83,6 +96,10 @@ public class MainMenuController {
         if (player2.isBlank()) {
             player2 = "Player 2";
         }
+
+        DataManager.setGameMode(gameMode);
+        DataManager.setPlayer1(player1);
+        DataManager.setPlayer2(player2);
 
         System.out.println("Starting a new " + gameMode + " game with " + player1 + " and " + player2);
 
