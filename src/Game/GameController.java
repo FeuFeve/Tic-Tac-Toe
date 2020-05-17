@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -21,11 +22,26 @@ public class GameController {
     @FXML private GridPane grid;
     @FXML private Pane gridToppingPane;
 
-    private GameBoard gameBoard;
+    @FXML private Label pseudo1;
+    @FXML private Label pseudo2;
+    @FXML private Label score1;
+    @FXML private Label score2;
+
     private boolean play = true;
 
 
     public void initialize() {
+        // Init the score table
+        pseudo1.setText(DataManager.player1.pseudo);
+        pseudo2.setText(DataManager.player2.pseudo);
+        score1.setText(String.valueOf(DataManager.player1.score));
+        score2.setText(String.valueOf(DataManager.player2.score));
+
+        // Init grid pane & the game board
+        initializeGame();
+    }
+
+    private void initializeGame() {
         int rows = 3;
         int columns = 3;
         int winningCombo = 3;
@@ -42,12 +58,13 @@ public class GameController {
             grid.getRowConstraints().add(rowConstraints);
         }
 
-        gameBoard = new GameBoard(rows, columns, winningCombo, grid.getPrefWidth(), grid.getPrefHeight());
+        DataManager.gameBoard = new GameBoard(rows, columns, winningCombo, grid.getPrefWidth(), grid.getPrefHeight());
 
         initializeGameBoard();
     }
 
     private void initializeGameBoard() {
+        GameBoard gameBoard = DataManager.gameBoard;
 
         for (int y = 0; y < gameBoard.tiles.size(); y++) {
 
@@ -103,8 +120,8 @@ public class GameController {
         int combo = 1;
 
         // Will be used if the combo is reached to draw a line on it
-        gameBoard.winningTiles = new ArrayList<>();
-        gameBoard.winningTiles.add(currentTile);
+        DataManager.gameBoard.winningTiles = new ArrayList<>();
+        DataManager.gameBoard.winningTiles.add(currentTile);
 
         // Try in a direction
         combo = checkInDirection(currentTile, combo, vectorX, vectorY);
@@ -114,6 +131,7 @@ public class GameController {
     }
 
     private int checkInDirection(Tile currentTile, int currentCombo, int vectorX, int vectorY) {
+        GameBoard gameBoard = DataManager.gameBoard;
         Player player = currentTile.owner;
         int vectorMultiplier = 1;
 
@@ -126,12 +144,19 @@ public class GameController {
                     if (currentCombo == gameBoard.winningCombo) {
                         System.out.println(tile.owner.pseudo + " won!");
 
+                        // Update the winner's score
+                        tile.owner.score++;
+                        score1.setText(String.valueOf(DataManager.player1.score));
+                        score2.setText(String.valueOf(DataManager.player2.score));
+
+                        // Get the coordinates of the winning pattern
                         Pair<Pair<Double, Double>, Pair<Double, Double>> winningLineCoordinates = gameBoard.getWinningLineXYCoordinates();
                         double x1 = winningLineCoordinates.getKey().getKey();
                         double y1 = winningLineCoordinates.getKey().getValue();
                         double x2 = winningLineCoordinates.getValue().getKey();
                         double y2 = winningLineCoordinates.getValue().getValue();
 
+                        // Draw a line to indicate the winning pattern
                         GameAnimator.animateWinningLine(gridToppingPane, x1, y1, x2, y2);
 
                         play = false;
@@ -153,7 +178,7 @@ public class GameController {
     private void launchNewGame() {
         gridToppingPane.getChildren().clear();
         gridToppingPane.setDisable(true);
-        initialize();
+        initializeGame();
         play = true;
     }
 

@@ -98,7 +98,7 @@ class GameBoard {
                 first = tile;
                 firstWeight = weight;
             }
-            else if (weight < secondWeight) {
+            if (weight < secondWeight) {
                 second = tile;
                 secondWeight = weight;
             }
