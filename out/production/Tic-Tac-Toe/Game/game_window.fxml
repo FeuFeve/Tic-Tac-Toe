@@ -22,7 +22,21 @@
             <Font name="Consolas" size="12.0" />
          </font>
       </Button>
-      <Pane layoutX="16.0" layoutY="210.0" prefHeight="125.0" prefWidth="150.0" style="-fx-background-color: #DDDDDD;">
+      <Pane layoutX="16.0" layoutY="105.0" prefHeight="80.0" prefWidth="150.0" style="-fx-background-color: #DDDDDD;">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="150.0" text="Player turn:">
+               <font>
+                  <Font name="Consolas Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="currentPlayerTurn" alignment="CENTER" layoutY="40.0" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #FF7777;" text="Player 1">
+               <font>
+                  <Font name="Consolas Bold" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane layoutX="16.0" layoutY="220.0" prefHeight="125.0" prefWidth="150.0" style="-fx-background-color: #DDDDDD;">
          <children>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="150.0" text="Scores">
                <font>
@@ -50,7 +64,7 @@
                </font>
             </Label>
          </children></Pane>
-      <Button layoutX="16.0" layoutY="384.0" mnemonicParsing="false" onAction="#loadMainMenu" prefWidth="150.0" style="-fx-background-color: #FFAAAA;" text="Back to main menu">
+      <Button layoutX="16.0" layoutY="375.0" mnemonicParsing="false" onAction="#loadMainMenu" prefWidth="150.0" style="-fx-background-color: #FFAAAA;" text="Back to main menu">
          <font>
             <Font name="Consolas" size="12.0" />
          </font>
