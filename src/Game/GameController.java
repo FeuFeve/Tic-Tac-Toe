@@ -150,6 +150,14 @@ public class GameController {
     }
 
     @FXML
+    private void launchNewGame() {
+        gridToppingPane.getChildren().clear();
+        gridToppingPane.setDisable(true);
+        initialize();
+        play = true;
+    }
+
+    @FXML
     private void loadMainMenu(ActionEvent event) throws IOException {
         // Get the game scene
         Parent gameRoot = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
