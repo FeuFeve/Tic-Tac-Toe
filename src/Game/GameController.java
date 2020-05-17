@@ -1,5 +1,6 @@
 package Game;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -39,6 +41,18 @@ public class GameController {
 
         // Init grid pane & the game board
         initializeGame();
+
+        // Prevent a NullPointerException happening because the current code is inside of the "initialize()" function
+        Platform.runLater(() -> {
+            Scene scene = grid.getScene();
+
+            // Press the <Enter> key to launch the game with the current parameters
+            scene.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.SPACE) {
+                    launchNewGame();
+                }
+            });
+        });
     }
 
     private void initializeGame() {
