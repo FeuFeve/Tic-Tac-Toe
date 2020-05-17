@@ -1,5 +1,6 @@
 package Game;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +13,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -53,6 +55,22 @@ public class MainMenuController {
             pseudo2.setText(DataManager.player2.pseudo);
         }
 
+        // Prevent a NullPointerException happening because the current code is inside of the "initialize()" function
+        Platform.runLater(() -> {
+            Scene scene = gameTitle.getScene();
+
+            // Press the <Enter> key to launch the game with the current parameters
+            scene.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    try {
+                        startGame();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        });
+
         // Animate the title
         GameAnimator.animateTitle(gameTitle);
 
@@ -64,7 +82,7 @@ public class MainMenuController {
     }
 
     @FXML
-    private void startGame(ActionEvent event) throws IOException {
+    private void startGame() throws IOException {
         String gameMode = gameModeBox.getValue();
         String player1 = pseudo1.getText();
         String player2 = pseudo2.getText();
@@ -88,7 +106,7 @@ public class MainMenuController {
         Scene gameScene = new Scene(gameRoot);
 
         // Get the stage
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage window = (Stage) gameTitle.getScene().getWindow();
 
         // Set the game scene to the stage
         window.setScene(gameScene);
