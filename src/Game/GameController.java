@@ -51,6 +51,13 @@ public class GameController {
                 if (event.getCode() == KeyCode.SPACE) {
                     launchNewGame();
                 }
+                else if (event.getCode() == KeyCode.ESCAPE) {
+                    try {
+                        loadMainMenu();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             });
         });
     }
@@ -197,13 +204,13 @@ public class GameController {
     }
 
     @FXML
-    private void loadMainMenu(ActionEvent event) throws IOException {
+    private void loadMainMenu() throws IOException {
         // Get the game scene
         Parent gameRoot = FXMLLoader.load(getClass().getResource("main_menu.fxml"));
         Scene gameScene = new Scene(gameRoot);
 
         // Get the stage
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage window = (Stage) grid.getScene().getWindow();
 
         // Set the game scene to the stage
         window.setScene(gameScene);
