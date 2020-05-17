@@ -161,5 +161,6 @@ public class GameController {
         // Set the game scene to the stage
         window.setScene(gameScene);
         window.show();
+        window.setTitle("Yet Another Tic-Tac-Toe Game");
     }
 }
