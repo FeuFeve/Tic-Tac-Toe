@@ -9,21 +9,23 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class GameController {
 
     @FXML private GridPane grid;
+    @FXML private Pane gridToppingPane;
 
     private GameBoard gameBoard;
-    private boolean toReset;
+    private boolean play = true;
 
 
     public void initialize() {
-        toReset = true;
         int rows = 3;
         int columns = 3;
         int winningCombo = 3;
@@ -40,11 +42,7 @@ public class GameController {
             grid.getRowConstraints().add(rowConstraints);
         }
 
-        // TODO : modify
-        Player player1 = new Player("Player 1", Sprites.cross);
-        Player player2 = new Player("Player 2", Sprites.circle);
-
-        gameBoard = new GameBoard(player1, player2, rows, columns, winningCombo);
+        gameBoard = new GameBoard(rows, columns, winningCombo, grid.getPrefWidth(), grid.getPrefHeight());
 
         initializeGameBoard();
     }
@@ -58,8 +56,7 @@ public class GameController {
 
                 Tile tile = row.get(x);
                 tile.pane.setOnMouseClicked(e -> {
-                    toReset = false;
-                    if (tile.owner == null) {
+                    if (play && tile.owner == null) {
                         tile.owner = gameBoard.currentPlayer;
 
                         // Set the player's shape on the tile
@@ -71,21 +68,16 @@ public class GameController {
                         // Check if the current player has won
                         checkForWinningPattern(tile);
 
-                        if (!toReset) {
-                            // Check if the game board is full and needs a reset
-                            if (gameBoard.isFull()) {
-                                System.out.println("No player won this time!");
-                                initialize();
-                            }
-                            else {
-                                gameBoard.turn++;
-                            }
-
-                            gameBoard.switchPlayerTurn();
+                        // Check if the game board is full and needs a reset
+                        if (gameBoard.isFull()) {
+                            System.out.println("No player won this time!");
+                            play = false;
                         }
                         else {
-                            toReset = false;
+                            gameBoard.turn++;
                         }
+
+                        gameBoard.switchPlayerTurn();
                     }
                 });
                 grid.add(tile.pane, x, y);
@@ -110,6 +102,10 @@ public class GameController {
     private void checkInLine(Tile currentTile, int vectorX, int vectorY) {
         int combo = 1;
 
+        // Will be used if the combo is reached to draw a line on it
+        gameBoard.winningTiles = new ArrayList<>();
+        gameBoard.winningTiles.add(currentTile);
+
         // Try in a direction
         combo = checkInDirection(currentTile, combo, vectorX, vectorY);
 
@@ -126,9 +122,19 @@ public class GameController {
                 Tile tile = gameBoard.getTileAt(currentTile.x + (vectorX * vectorMultiplier), currentTile.y + (vectorY * vectorMultiplier));
                 if (tile.owner == player) {
                     currentCombo++;
+                    gameBoard.winningTiles.add(tile);
                     if (currentCombo == gameBoard.winningCombo) {
                         System.out.println(tile.owner.pseudo + " won!");
-                        initialize();
+
+                        Pair<Pair<Double, Double>, Pair<Double, Double>> winningLineCoordinates = gameBoard.getWinningLineXYCoordinates();
+                        double x1 = winningLineCoordinates.getKey().getKey();
+                        double y1 = winningLineCoordinates.getKey().getValue();
+                        double x2 = winningLineCoordinates.getValue().getKey();
+                        double y2 = winningLineCoordinates.getValue().getValue();
+
+                        GameAnimator.animateWinningLine(gridToppingPane, x1, y1, x2, y2);
+
+                        play = false;
                         return currentCombo;
                     }
                     vectorMultiplier++;

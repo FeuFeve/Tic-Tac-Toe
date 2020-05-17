@@ -1,8 +1,5 @@
 package Game;
 
-import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,11 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainMenuController {
 
@@ -60,27 +54,13 @@ public class MainMenuController {
         }
 
         // Animate the title
-        ScaleTransition st = new ScaleTransition(Duration.millis(2000), gameTitle);
-        st.setByX(-0.2);
-        st.setByY(-0.2);
-        st.setAutoReverse(true);
-        st.setCycleCount(Timeline.INDEFINITE);
-        st.play();
+        GameAnimator.animateTitle(gameTitle);
 
         // Animate the crosses/circles
-        List<FadeTransition> fadeTransitions = new ArrayList<>();
-        fadeTransitions.add(new FadeTransition(Duration.millis(2000), player1Cross1));
-        fadeTransitions.add(new FadeTransition(Duration.millis(2000), player1Cross2));
-        fadeTransitions.add(new FadeTransition(Duration.millis(2000), player2Circle1));
-        fadeTransitions.add(new FadeTransition(Duration.millis(2000), player2Circle2));
-
-        for (FadeTransition ft : fadeTransitions) {
-            ft.setFromValue(1);
-            ft.setToValue(0.1);
-            ft.setAutoReverse(true);
-            ft.setCycleCount(Timeline.INDEFINITE);
-            ft.play();
-        }
+        GameAnimator.animateFadingImage(player1Cross1, 1, 0.1, 2000);
+        GameAnimator.animateFadingImage(player1Cross2, 1, 0.1, 2000);
+        GameAnimator.animateFadingImage(player2Circle1, 1, 0.1, 2000);
+        GameAnimator.animateFadingImage(player2Circle2, 1, 0.1, 2000);
     }
 
     @FXML

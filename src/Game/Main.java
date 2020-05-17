@@ -13,7 +13,7 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main_menu.fxml"));
         Parent root = fxmlLoader.load();
 
-        primaryStage.setTitle("Tic-Tac-Toe");
+        primaryStage.setTitle("Yet Another Tic-Tac-Toe Game");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
     }

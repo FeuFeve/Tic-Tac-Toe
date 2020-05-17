@@ -2,7 +2,7 @@ package Game;
 
 import javafx.scene.image.Image;
 
-public class Sprites {
+class Sprites {
 
     /** Gridpane background sprites */
     static Image backgroundAngle = new Image("file:res/sprites/background_angle.png");

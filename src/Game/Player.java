@@ -2,10 +2,11 @@ package Game;
 
 import javafx.scene.image.Image;
 
-public class Player {
+class Player {
 
     String pseudo;
     Image shape;
+    int score = 0;
 
 
     Player(String pseudo, Image shape) {

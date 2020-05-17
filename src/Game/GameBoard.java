@@ -1,26 +1,34 @@
 package Game;
 
+import javafx.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameBoard {
+class GameBoard {
 
     List<List<Tile>> tiles = new ArrayList<>();
     int rows;
     int columns;
+
+    double width;
+    double height;
+
     int winningCombo;
+    List<Tile> winningTiles = new ArrayList<>();
 
     int turn = 1;
 
-    Player player1;
-    Player player2;
     Player currentPlayer;
 
 
-    GameBoard(Player player1, Player player2, int rows, int columns, int winningCombo) {
+    GameBoard(int rows, int columns, int winningCombo, double width, double height) {
+        currentPlayer = DataManager.player1;
         this.rows = rows;
         this.columns = columns;
         this.winningCombo = winningCombo;
+        this.width = width;
+        this.height = height;
 
         for (int y = 0; y < rows; y++) {
 
@@ -58,18 +66,14 @@ public class GameBoard {
 
             tiles.add(row);
         }
-
-        this.player1 = player1;
-        this.player2 = player2;
-        currentPlayer = player1;
     }
 
     void switchPlayerTurn() {
-        if (currentPlayer == player1) {
-            currentPlayer = player2;
+        if (currentPlayer == DataManager.player1) {
+            currentPlayer = DataManager.player2;
         }
         else {
-            currentPlayer = player1;
+            currentPlayer = DataManager.player1;
         }
     }
 
@@ -79,5 +83,48 @@ public class GameBoard {
 
     Tile getTileAt(int x, int y) {
         return tiles.get(y).get(x);
+    }
+
+    private Pair<Tile, Tile> getWinningLineEnds() {
+        Tile first = null;
+        Tile second = null;
+
+        int firstWeight = -1;
+        int secondWeight = 1_000_000;
+
+        for (Tile tile : winningTiles) {
+            int weight = tile.y*columns + tile.x;
+            if (weight > firstWeight) {
+                first = tile;
+                firstWeight = weight;
+            }
+            else if (weight < secondWeight) {
+                second = tile;
+                secondWeight = weight;
+            }
+        }
+
+        return new Pair<>(first, second);
+    }
+
+    private Pair<Double, Double> getTileMiddleXYCoordinates(Tile tile) {
+        double tileWidth = width/columns;
+        double tileHeight = height/rows;
+
+        double x = tile.x * tileWidth + tileWidth/2;
+        double y = tile.y * tileHeight + tileHeight/2;
+
+        return new Pair<>(x, y);
+    }
+
+    Pair<Pair<Double, Double>, Pair<Double, Double>> getWinningLineXYCoordinates() {
+        Pair<Tile, Tile> winningLineEnds = getWinningLineEnds();
+        Tile first = winningLineEnds.getKey();
+        Tile second = winningLineEnds.getValue();
+
+        Pair<Double, Double> firstCoords = getTileMiddleXYCoordinates(first);
+        Pair<Double, Double> secondCoords = getTileMiddleXYCoordinates(second);
+
+        return new Pair<>(firstCoords, secondCoords);
     }
 }
