@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
-import javafx.util.Pair;
 
 class GameAnimator {
 
@@ -45,5 +44,10 @@ class GameAnimator {
 
         surface.setDisable(false);
         surface.getChildren().add(line);
+    }
+
+    static void changeLabel(Label label, String text, String colorCode) {
+        label.setText(text);
+        label.setStyle("-fx-background-color: " + colorCode);
     }
 }

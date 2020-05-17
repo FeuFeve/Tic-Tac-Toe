@@ -17,10 +17,10 @@ class DataManager {
     }
 
     static void setPlayer1(String pseudo) {
-        player1 = new Player(pseudo, Sprites.cross);
+        player1 = new Player(pseudo, Sprites.cross, Colors.player1Background);
     }
 
     static void setPlayer2(String pseudo) {
-        player2 = new Player(pseudo, Sprites.circle);
+        player2 = new Player(pseudo, Sprites.circle, Colors.player2Background);
     }
 }

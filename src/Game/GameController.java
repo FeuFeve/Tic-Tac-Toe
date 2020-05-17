@@ -1,10 +1,8 @@
 package Game;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -23,6 +21,8 @@ public class GameController {
 
     @FXML private GridPane grid;
     @FXML private Pane gridToppingPane;
+
+    @FXML private Label currentPlayerTurn;
 
     @FXML private Label pseudo1;
     @FXML private Label pseudo2;
@@ -82,6 +82,9 @@ public class GameController {
         DataManager.gameBoard = new GameBoard(rows, columns, winningCombo, grid.getPrefWidth(), grid.getPrefHeight());
 
         initializeGameBoard();
+
+        // Init the player turn label
+        GameAnimator.changeLabel(currentPlayerTurn, DataManager.player1.pseudo, Colors.player1Background);
     }
 
     private void initializeGameBoard() {
@@ -115,7 +118,13 @@ public class GameController {
                             gameBoard.turn++;
                         }
 
-                        gameBoard.switchPlayerTurn();
+                        // If no one has won yet (and the gameBoard isn't filled), change the player turn
+                        if (play) {
+                            gameBoard.switchPlayerTurn();
+
+                            // Update the player turn label
+                            GameAnimator.changeLabel(currentPlayerTurn, gameBoard.currentPlayer.pseudo, gameBoard.currentPlayer.color);
+                        }
                     }
                 });
                 grid.add(tile.pane, x, y);
