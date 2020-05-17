@@ -100,11 +100,8 @@ public class GameController {
                     if (play && tile.owner == null) {
                         tile.owner = gameBoard.currentPlayer;
 
-                        // Set the player's shape on the tile
-                        ImageView playerShape = new ImageView(gameBoard.currentPlayer.shape);
-                        tile.pane.getChildren().add(playerShape);
-                        playerShape.fitWidthProperty().bind(tile.pane.widthProperty());
-                        playerShape.fitHeightProperty().bind(tile.pane.heightProperty());
+                        // Animate the player's shape on the tile
+                        GameAnimator.animateClickedTile(tile, gameBoard.currentPlayer.shape);
 
                         // Check if the current player has won
                         checkForWinningPattern(tile);

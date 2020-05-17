@@ -4,6 +4,7 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
@@ -28,6 +29,21 @@ class GameAnimator {
         ft.setAutoReverse(true);
         ft.setCycleCount(Timeline.INDEFINITE);
         ft.play();
+    }
+
+    static void animateClickedTile(Tile tile, Image shape) {
+        ImageView playerShape = new ImageView(shape);
+
+        ScaleTransition st = new ScaleTransition(Duration.millis(200), playerShape);
+        st.setFromX(0);
+        st.setFromY(0);
+        st.setToX(1);
+        st.setToY(1);
+        st.play();
+
+        tile.pane.getChildren().add(playerShape);
+        playerShape.fitWidthProperty().bind(tile.pane.widthProperty());
+        playerShape.fitHeightProperty().bind(tile.pane.heightProperty());
     }
 
     static void animateWinningLine(Pane surface, double x1, double y1, double x2, double y2) {
