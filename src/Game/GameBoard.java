@@ -104,6 +104,10 @@ class GameBoard implements Serializable {
         return turn == rows * columns;
     }
 
+    int getAvailableTiles() {
+        return (rows * columns) - turn + 1;
+    }
+
     Tile getTileAt(int x, int y) {
         return tiles.get(y).get(x);
     }

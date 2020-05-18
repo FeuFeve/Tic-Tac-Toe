@@ -102,29 +102,20 @@ public class GameController {
                 Tile tile = row.get(x);
                 tile.pane.setOnMouseClicked(e -> {
                     if (play && tile.owner == null) {
-                        tile.owner = gameBoard.currentPlayer;
+                        // Let the player play, and update the interface/game board
+                        doPlayerTurn(tile, gameBoard);
 
-                        // Animate the player's shape on the tile
-                        GameAnimator.animateClickedTile(tile);
-
-                        // Check if the current player has won
-                        checkForWinningPattern(tile);
-
-                        // Check if the game board is full and needs a reset
-                        if (gameBoard.isFull()) {
-                            System.out.println("No player won this time!");
-                            play = false;
-                        }
-                        else {
-                            gameBoard.turn++;
-                        }
-
-                        // If no one has won yet (and the gameBoard isn't filled), change the player turn
+                        // If no one has won yet and there is still available tiles
                         if (play) {
-                            gameBoard.switchPlayerTurn();
-
-                            // Update the player turn label
-                            GameAnimator.changeLabel(currentPlayerTurn, gameBoard.currentPlayer.pseudo, gameBoard.currentPlayer.color);
+                            // Check if the other player is an AI, in this case, let the AI play
+                            if (!DataManager.gameMode.equals("Player vs Player")) {
+                                try {
+                                    System.out.println("AI is playing...");
+                                    doAITurn(gameBoard, 500);
+                                } catch (InterruptedException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
                         }
                     }
                 });
@@ -149,6 +140,82 @@ public class GameController {
                 grid.add(tile.pane, x, y);
             }
         }
+    }
+
+    private void doPlayerTurn(Tile tile, GameBoard gameBoard) {
+        tile.owner = gameBoard.currentPlayer;
+
+        // Animate the player's shape on the tile
+        GameAnimator.animateClickedTile(tile);
+
+        // Check if the current player has won
+        checkForWinningPattern(tile);
+
+        // Check if the game board is full and needs a reset
+        if (gameBoard.isFull() && !gameBoard.hasWinner) {
+            System.out.println("No player won this time!");
+            play = false;
+        }
+        else {
+            gameBoard.turn++;
+        }
+
+        // If no one has won yet (and the gameBoard isn't filled), change the player turn
+        if (play) {
+            gameBoard.switchPlayerTurn();
+
+            // Update the player turn label
+            GameAnimator.changeLabel(currentPlayerTurn, gameBoard.currentPlayer.pseudo, gameBoard.currentPlayer.color);
+        }
+    }
+
+    private void doAITurn(GameBoard gameBoard, int sleepingTimeMillis) throws InterruptedException {
+        // To ensure the player can't play during the AI turn
+        gridToppingPane.setDisable(false);
+
+        // Create a task that the AI thread will use
+        Runnable AITask = () -> {
+            double startTime = System.nanoTime();
+
+            int chosenTile = AI.play(gameBoard.getAvailableTiles());
+            for (List<Tile> row : gameBoard.tiles) {
+                for (Tile tile : row) {
+                    if (tile.owner == null) {
+                        if (chosenTile == 0) {
+                            // Make the thread sleep if needed so the AI do not play "instantly"
+                            double endTime = System.nanoTime();
+                            int remainingTime = sleepingTimeMillis - (int)(endTime - startTime)/1_000_000;
+                            if (remainingTime > 0) {
+                                try {
+                                    Thread.sleep(remainingTime);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            System.out.println("- The AI chose the tile: (" + tile.x + ", " + tile.y + ")");
+
+                            // Make the AI play (Platform.runLater() to avoid "IllegalStateException: Not on FX application thread" from GameAnimator
+                            Platform.runLater(() -> {
+                                doPlayerTurn(tile, gameBoard);
+                            });
+                            return;
+                        }
+                        else {
+                            chosenTile--;
+                        }
+                    }
+                }
+            }
+        };
+
+        // Create a thread for the AI, using the AI task. The thread is essentially here to call "Thread.sleep()" without freezing the UI
+        Thread AIThread = new Thread(AITask);
+        AIThread.setDaemon(true);
+        AIThread.start();
+
+        // Re-enable the player to play
+        gridToppingPane.setDisable(true);
     }
 
     private void checkForWinningPattern(Tile tile) {
@@ -191,13 +258,16 @@ public class GameController {
                     currentCombo++;
                     gameBoard.winningTiles.add(tile);
                     if (currentCombo == gameBoard.winningCombo) {
-                        System.out.println(tile.owner.pseudo + " won!");
-
                         if (!gameBoard.hasWinner) {
+                            System.out.println(tile.owner.pseudo + " won!");
                             // Update the winner's score
                             tile.owner.score++;
-                            score1.setText(String.valueOf(DataManager.player1.score));
-                            score2.setText(String.valueOf(DataManager.player2.score));
+                            if (tile.owner == DataManager.player1) {
+                                GameAnimator.animateScore(score1, DataManager.player1);
+                            }
+                            else {
+                                GameAnimator.animateScore(score2, DataManager.player2);
+                            }
 
                             gameBoard.hasWinner = true;
                         }
@@ -220,8 +290,7 @@ public class GameController {
                 else {
                     return currentCombo;
                 }
-            }
-            catch (IndexOutOfBoundsException e) {
+            } catch (IndexOutOfBoundsException e) {
                 return currentCombo;
             }
         }
@@ -229,6 +298,7 @@ public class GameController {
 
     @FXML
     private void launchNewGame() {
+        System.out.println("##############################");
         gridToppingPane.getChildren().clear();
         gridToppingPane.setDisable(true);
         initializeGame(null);

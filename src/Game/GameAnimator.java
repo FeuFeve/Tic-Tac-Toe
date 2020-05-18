@@ -61,6 +61,10 @@ class GameAnimator {
         surface.getChildren().add(line);
     }
 
+    static void animateScore(Label label, Player player) {
+        label.setText(String.valueOf(player.score));
+    }
+
     static void changeLabel(Label label, String text, String colorCode) {
         label.setText(text);
         label.setStyle("-fx-background-color: " + colorCode);
