@@ -40,7 +40,7 @@ class DataManager {
         new File(saveDirPath).mkdirs();
 
         // Save the data inside of non-static members for quick/easy serialization
-        Save save = new Save(gameMode, gameBoard, player1, player2);
+        Save save = new Save(rows, columns, winningCombo, gameMode, gameBoard, player1, player2);
         String savePath = saveDirPath + player1.pseudo + " vs " + player2.pseudo + ".ser";
 
         // Serialize the data
@@ -58,6 +58,10 @@ class DataManager {
         ObjectInputStream in = new ObjectInputStream(fileIn);
 
         Save save = (Save) in.readObject();
+        rows = save.rows;
+        columns = save.columns;
+        winningCombo = save.winningCombo;
+
         gameMode = save.gameMode;
         gameBoard = save.gameBoard;
         player1 = save.player1;

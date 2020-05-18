@@ -109,12 +109,8 @@ public class GameController {
                         if (play) {
                             // Check if the other player is an AI, in this case, let the AI play
                             if (!DataManager.gameMode.equals("Player vs Player")) {
-                                try {
-                                    System.out.println("AI is playing...");
-                                    doAITurn(gameBoard, 500);
-                                } catch (InterruptedException ex) {
-                                    ex.printStackTrace();
-                                }
+                                System.out.println("AI is playing...");
+                                doAITurn(gameBoard, 500);
                             }
                         }
                     }
@@ -169,7 +165,7 @@ public class GameController {
         }
     }
 
-    private void doAITurn(GameBoard gameBoard, int sleepingTimeMillis) throws InterruptedException {
+    private void doAITurn(GameBoard gameBoard, int sleepingTimeMillis) {
         // To ensure the player can't play during the AI turn
         gridToppingPane.setDisable(false);
 
@@ -196,9 +192,7 @@ public class GameController {
                             System.out.println("- The AI chose the tile: (" + tile.x + ", " + tile.y + ")");
 
                             // Make the AI play (Platform.runLater() to avoid "IllegalStateException: Not on FX application thread" from GameAnimator
-                            Platform.runLater(() -> {
-                                doPlayerTurn(tile, gameBoard);
-                            });
+                            Platform.runLater(() -> doPlayerTurn(tile, gameBoard));
                             return;
                         }
                         else {
