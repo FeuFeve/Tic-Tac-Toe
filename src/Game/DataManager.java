@@ -27,10 +27,6 @@ class DataManager {
         DataManager.gameMode = gameMode;
     }
 
-    static void setGameBoard(GameBoard gameBoard) {
-        DataManager.gameBoard = gameBoard;
-    }
-
     static void setPlayer1(String pseudo) {
         player1 = new Player(pseudo, Sprites.crossPath, Colors.player1Background);
     }

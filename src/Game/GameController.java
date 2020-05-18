@@ -30,7 +30,7 @@ public class GameController {
     @FXML private Label score1;
     @FXML private Label score2;
 
-    private boolean play = true;
+    private boolean play;
 
 
     public void initialize() {
@@ -64,6 +64,7 @@ public class GameController {
     }
 
     private void initializeGame(GameBoard gameBoard) {
+        play = true;
         int rows = DataManager.rows;
         int columns = DataManager.columns;
         int winningCombo = DataManager.winningCombo;
@@ -96,8 +97,6 @@ public class GameController {
         for (int y = 0; y < gameBoard.tiles.size(); y++) {
 
             List<Tile> row = gameBoard.tiles.get(y);
-            int score1 = DataManager.player1.score;
-            int score2 = DataManager.player2.score;
             for (int x = 0; x < row.size(); x++) {
 
                 Tile tile = row.get(x);
@@ -233,7 +232,6 @@ public class GameController {
         gridToppingPane.getChildren().clear();
         gridToppingPane.setDisable(true);
         initializeGame(null);
-        play = true;
     }
 
     @FXML
@@ -256,6 +254,10 @@ public class GameController {
         if (saveFile == null) {
             return;
         }
+
+        // Remove the winning line if there is one
+        gridToppingPane.getChildren().clear();
+        gridToppingPane.setDisable(true);
 
         // Let the data manager load the information from the file
         DataManager.load(saveFile);
