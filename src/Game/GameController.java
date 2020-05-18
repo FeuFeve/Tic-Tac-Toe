@@ -6,12 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class GameController {
         score2.setText(String.valueOf(DataManager.player2.score));
 
         // Init grid pane & the game board
-        initializeGame();
+        initializeGame(DataManager.gameBoard);
 
         // Prevent a NullPointerException happening because the current code is inside of the "initialize()" function
         Platform.runLater(() -> {
@@ -62,10 +63,10 @@ public class GameController {
         });
     }
 
-    private void initializeGame() {
-        int rows = 3;
-        int columns = 3;
-        int winningCombo = 3;
+    private void initializeGame(GameBoard gameBoard) {
+        int rows = DataManager.rows;
+        int columns = DataManager.columns;
+        int winningCombo = DataManager.winningCombo;
 
         for (int i = 0; i < rows; i++) {
             ColumnConstraints colConstraints = new ColumnConstraints();
@@ -79,12 +80,14 @@ public class GameController {
             grid.getRowConstraints().add(rowConstraints);
         }
 
-        DataManager.gameBoard = new GameBoard(rows, columns, winningCombo, grid.getPrefWidth(), grid.getPrefHeight());
+        if (gameBoard == null) {
+            DataManager.gameBoard = new GameBoard(rows, columns, winningCombo, grid.getPrefWidth(), grid.getPrefHeight());
+        }
 
         initializeGameBoard();
 
         // Init the player turn label
-        GameAnimator.changeLabel(currentPlayerTurn, DataManager.player1.pseudo, Colors.player1Background);
+        GameAnimator.changeLabel(currentPlayerTurn, DataManager.gameBoard.currentPlayer.pseudo, DataManager.gameBoard.currentPlayer.color);
     }
 
     private void initializeGameBoard() {
@@ -93,6 +96,8 @@ public class GameController {
         for (int y = 0; y < gameBoard.tiles.size(); y++) {
 
             List<Tile> row = gameBoard.tiles.get(y);
+            int score1 = DataManager.player1.score;
+            int score2 = DataManager.player2.score;
             for (int x = 0; x < row.size(); x++) {
 
                 Tile tile = row.get(x);
@@ -101,7 +106,7 @@ public class GameController {
                         tile.owner = gameBoard.currentPlayer;
 
                         // Animate the player's shape on the tile
-                        GameAnimator.animateClickedTile(tile, gameBoard.currentPlayer.shape);
+                        GameAnimator.animateClickedTile(tile);
 
                         // Check if the current player has won
                         checkForWinningPattern(tile);
@@ -124,6 +129,24 @@ public class GameController {
                         }
                     }
                 });
+
+                // When loading a save, the game board might have already been used
+                if (tile.owner != null) {
+                    // Animate the player's shape on the tile
+                    GameAnimator.animateClickedTile(tile);
+
+                    // Check if the current player has won
+                    if (play && gameBoard.hasWinner) {
+                        checkForWinningPattern(tile);
+                    }
+
+                    // Check if the game board is full and needs a reset
+                    if (play && gameBoard.isFull() && !gameBoard.hasWinner) {
+                        System.out.println("No player won this time!");
+                        play = false;
+                    }
+                }
+
                 grid.add(tile.pane, x, y);
             }
         }
@@ -171,10 +194,14 @@ public class GameController {
                     if (currentCombo == gameBoard.winningCombo) {
                         System.out.println(tile.owner.pseudo + " won!");
 
-                        // Update the winner's score
-                        tile.owner.score++;
-                        score1.setText(String.valueOf(DataManager.player1.score));
-                        score2.setText(String.valueOf(DataManager.player2.score));
+                        if (!gameBoard.hasWinner) {
+                            // Update the winner's score
+                            tile.owner.score++;
+                            score1.setText(String.valueOf(DataManager.player1.score));
+                            score2.setText(String.valueOf(DataManager.player2.score));
+
+                            gameBoard.hasWinner = true;
+                        }
 
                         // Get the coordinates of the winning pattern
                         Pair<Pair<Double, Double>, Pair<Double, Double>> winningLineCoordinates = gameBoard.getWinningLineXYCoordinates();
@@ -205,8 +232,36 @@ public class GameController {
     private void launchNewGame() {
         gridToppingPane.getChildren().clear();
         gridToppingPane.setDisable(true);
-        initializeGame();
+        initializeGame(null);
         play = true;
+    }
+
+    @FXML
+    private void saveGame() throws IOException {
+        DataManager.save();
+    }
+
+    @FXML
+    private void loadGame() throws IOException, ClassNotFoundException {
+        // Get the stage
+        Stage window = (Stage) grid.getScene().getWindow();
+
+        // Create a file chooser
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select a save");
+        fileChooser.setInitialDirectory(new File(DataManager.saveDirPath));
+
+        // Open the file chooser (file explorer) and let the user select a save he wants to load
+        File saveFile = fileChooser.showOpenDialog(window);
+        if (saveFile == null) {
+            return;
+        }
+
+        // Let the data manager load the information from the file
+        DataManager.load(saveFile);
+
+        // Re-initialize
+        initialize();
     }
 
     @FXML

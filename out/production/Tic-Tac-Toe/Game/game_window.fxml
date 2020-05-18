@@ -12,12 +12,12 @@
             <Font name="Consolas" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="16.0" layoutY="50.0" mnemonicParsing="false" prefWidth="70.0" style="-fx-background-color: #AAFFAA;" text="Save">
+      <Button layoutX="16.0" layoutY="50.0" mnemonicParsing="false" onAction="#saveGame" prefWidth="70.0" style="-fx-background-color: #AAFFAA;" text="Save">
          <font>
             <Font name="Consolas" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="96.0" layoutY="50.0" mnemonicParsing="false" prefWidth="70.0" style="-fx-background-color: #FFFFAA;" text="Load">
+      <Button layoutX="96.0" layoutY="50.0" mnemonicParsing="false" onAction="#loadGame" prefWidth="70.0" style="-fx-background-color: #FFFFAA;" text="Load">
          <font>
             <Font name="Consolas" size="12.0" />
          </font>

@@ -2,10 +2,11 @@ package Game;
 
 import javafx.util.Pair;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-class GameBoard {
+class GameBoard implements Serializable {
 
     List<List<Tile>> tiles = new ArrayList<>();
     int rows;
@@ -20,6 +21,7 @@ class GameBoard {
     int turn = 1;
 
     Player currentPlayer;
+    boolean hasWinner;
 
 
     GameBoard(int rows, int columns, int winningCombo, double width, double height) {
@@ -36,35 +38,56 @@ class GameBoard {
             for (int x = 0; x < columns; x++) {
 
                 if (x == 0 && y == 0) {                     // Top left corner
-                    row.add(new Tile(x, y, Sprites.backgroundAngle));
+                    row.add(new Tile(x, y, Sprites.backgroundAnglePath));
                 }
                 else if (x == rows-1 && y == 0) {           // Top right corner
-                    row.add(new Tile(x, y, Sprites.backgroundAngle, 90));
+                    Tile tile = new Tile(x, y, Sprites.backgroundAnglePath);
+                    tile.resetRotation(90);
+                    row.add(tile);
                 }
                 else if (x == rows-1 && y == columns-1) {   // Bottom right corner
-                    row.add(new Tile(x, y, Sprites.backgroundAngle, 180));
+                    Tile tile = new Tile(x, y, Sprites.backgroundAnglePath);
+                    tile.resetRotation(180);
+                    row.add(tile);
                 }
                 else if (x == 0 && y == columns-1) {        // Bottom left corner
-                    row.add(new Tile(x, y, Sprites.backgroundAngle, 270));
+                    Tile tile = new Tile(x, y, Sprites.backgroundAnglePath);
+                    tile.resetRotation(270);
+                    row.add(tile);
                 }
                 else if (y == 0) {                          // Top row
-                    row.add(new Tile(x, y, Sprites.backgroundEdge));
+                    row.add(new Tile(x, y, Sprites.backgroundEdgePath));
                 }
                 else if (x == rows-1) {                     // Right column
-                    row.add(new Tile(x, y, Sprites.backgroundEdge, 90));
+                    Tile tile = new Tile(x, y, Sprites.backgroundEdgePath);
+                    tile.resetRotation(90);
+                    row.add(tile);
                 }
                 else if (y == columns-1) {                  // Bottom row
-                    row.add(new Tile(x, y, Sprites.backgroundEdge, 180));
+                    Tile tile = new Tile(x, y, Sprites.backgroundEdgePath);
+                    tile.resetRotation(180);
+                    row.add(tile);
                 }
                 else if (x == 0) {                          // Left column
-                    row.add(new Tile(x, y, Sprites.backgroundEdge, 270));
+                    Tile tile = new Tile(x, y, Sprites.backgroundEdgePath);
+                    tile.resetRotation(270);
+                    row.add(tile);
                 }
                 else {                                      // Middle tiles
-                    row.add(new Tile(x, y, Sprites.backgroundMiddle));
+                    row.add(new Tile(x, y, Sprites.backgroundMiddlePath));
                 }
             }
 
             tiles.add(row);
+        }
+    }
+
+    // Used when de-serializing (loading) a game
+    void initPanes() {
+        for (List<Tile> row : tiles) {
+            for (Tile tile : row) {
+                tile.initTransients();
+            }
         }
     }
 

@@ -2,17 +2,28 @@ package Game;
 
 import javafx.scene.image.Image;
 
-class Player {
+import java.io.Serializable;
+
+class Player implements Serializable {
 
     String pseudo;
-    Image shape;
     String color;
     int score = 0;
 
+    String shapePath;
+    transient Image shape;
 
-    Player(String pseudo, Image shape, String color) {
+
+    Player(String pseudo, String shapePath, String color) {
         this.pseudo = pseudo;
-        this.shape = shape;
+        this.shapePath = shapePath;
         this.color = color;
+
+        // Init the transients variables
+        initTransients();
+    }
+
+    void initTransients() {
+        shape = new Image(shapePath);
     }
 }

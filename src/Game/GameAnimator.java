@@ -31,8 +31,8 @@ class GameAnimator {
         ft.play();
     }
 
-    static void animateClickedTile(Tile tile, Image shape) {
-        ImageView playerShape = new ImageView(shape);
+    static void animateClickedTile(Tile tile) {
+        ImageView playerShape = new ImageView(tile.owner.shape);
 
         ScaleTransition st = new ScaleTransition(Duration.millis(200), playerShape);
         st.setFromX(0);

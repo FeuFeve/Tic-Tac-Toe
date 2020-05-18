@@ -81,6 +81,9 @@ public class MainMenuController {
 
     @FXML
     private void startGame() throws IOException {
+        // TODO: modify
+        DataManager.init(3, 3, 3);
+
         String gameMode = gameModeBox.getValue();
         String player1 = pseudo1.getText();
         String player2 = pseudo2.getText();

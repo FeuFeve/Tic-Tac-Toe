@@ -4,31 +4,46 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
-class Tile {
+import java.io.Serializable;
 
-    Pane pane;
+class Tile implements Serializable {
+
+    transient Pane pane;
 
     int x;
     int y;
     Player owner;
 
-    ImageView background;
+    String backgroundPath;
+    transient ImageView background;
+    int rotation;
 
 
-    Tile(int x, int y, Image backgroundImage) {
+    Tile(int x, int y, String backgroundImagePath) {
         this.x = x;
         this.y = y;
+        backgroundPath = backgroundImagePath;
 
-        // Background image
-        background = new ImageView(backgroundImage);
+        // Init the transients variables
+        initTransients();
+    }
+
+    void initTransients() {
+        // Init background image from path
+        background = new ImageView(new Image(backgroundPath));
+
+        // Init pane
         pane = new Pane();
         pane.getChildren().add(background);
         background.fitWidthProperty().bind(pane.widthProperty());
         background.fitHeightProperty().bind(pane.heightProperty());
+
+        // Reset background sprite rotation
+        resetRotation(this.rotation);
     }
 
-    Tile(int x, int y, Image backgroundImage, int rotation) {
-        this(x, y, backgroundImage);
+    void resetRotation(int rotation) {
+        this.rotation = rotation;
         background.setRotate(rotation);
     }
 }
