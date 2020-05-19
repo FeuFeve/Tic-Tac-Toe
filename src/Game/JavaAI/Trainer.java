@@ -1,25 +1,25 @@
-package JavaAI;
+package Game.JavaAI;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-class Trainer {
+public class Trainer {
 
-    static int player = -1;
-    static int ai = 1;
-    static int winner;
+    public static int player = -1;
+    public static int ai = 1;
+    public static int winner;
     private static double[] gameBoard;
-    static List<double[]> states;
-    static List<Integer> nextTile;
+    public static List<double[]> states;
+    public static List<Integer> nextTile;
 
-    static void reset() {
+    public static void reset() {
         winner = 0;
         states = new ArrayList<>();
         nextTile = new ArrayList<>();
     }
 
-    static void generateGame() {
+    public static void generateGame() {
         gameBoard = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 
         int current = player;

@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -30,12 +31,24 @@ public class MainMenuController {
     @FXML private ImageView player2Circle1;
     @FXML private ImageView player2Circle2;
 
+    @FXML private Button playButton;
+
     // Vars
     ObservableList<String> gameModes = FXCollections.observableArrayList("Player vs Player", "Player vs Easy AI", "Player vs Normal AI", "Player vs Hard AI");
+    static boolean isTraining;
 
 
     @FXML
     private void initialize() {
+        // Train the medium and hard-difficulty AIs if they does not exist, and do it on a background thread so the UI isn't frozen
+        Runnable trainsAIsTask = () -> {
+            setIsTraining(true);
+            AI.initMediumAndHardAIs();
+            setIsTraining(false);
+        };
+        Thread trainAIsThread = new Thread(trainsAIsTask);
+        trainAIsThread.start();
+
         // Init the game mode choice box
         if (DataManager.gameMode == null) {
             gameModeBox.setValue(gameModes.get(0));
@@ -59,7 +72,7 @@ public class MainMenuController {
 
             // Press the <Enter> key to launch the game with the current parameters
             scene.setOnKeyPressed(event -> {
-                if (event.getCode() == KeyCode.ENTER) {
+                if (event.getCode() == KeyCode.ENTER && !isTraining) {
                     try {
                         startGame();
                     } catch (IOException e) {
@@ -77,6 +90,12 @@ public class MainMenuController {
         GameAnimator.animateFadingImage(player1Cross2, 1, 0.1, 2000);
         GameAnimator.animateFadingImage(player2Circle1, 1, 0.1, 2000);
         GameAnimator.animateFadingImage(player2Circle2, 1, 0.1, 2000);
+    }
+
+    // Disable the possibility to launch a game when training
+    void setIsTraining(boolean isTraining) {
+        MainMenuController.isTraining = isTraining;
+        Platform.runLater(() -> playButton.setDisable(isTraining));
     }
 
     @FXML

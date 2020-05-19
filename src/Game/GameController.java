@@ -205,7 +205,6 @@ public class GameController {
 
         // Create a thread for the AI, using the AI task. The thread is essentially here to call "Thread.sleep()" without freezing the UI
         Thread AIThread = new Thread(AITask);
-        AIThread.setDaemon(true);
         AIThread.start();
 
         // Re-enable the player to play

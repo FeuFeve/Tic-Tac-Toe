@@ -1,4 +1,4 @@
-package JavaAI;
+package Game.JavaAI;
 
 public interface TransferFunction {
 	

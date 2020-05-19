@@ -1,4 +1,4 @@
-package JavaAI;
+package Game.JavaAI;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package JavaAI;
+package Game.JavaAI;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -70,12 +70,6 @@ public class Test {
 			System.out.println("Error is " + error);
 
 			System.out.println("Learning completed!");
-
-			//TEST ...
-//			double[] inputs = new double[]{0.0, 1.0};
-//			double[] output = net.forwardPropagation(inputs);
-//
-//			System.out.println(inputs[0] + " or " + inputs[1] + " = " + Math.round(output[0]) + " (" + output[0] + ")");
 		}
 		catch (Exception e) {
 			System.out.println("Test.test()");
