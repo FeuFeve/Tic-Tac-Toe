@@ -325,7 +325,7 @@ public class GameController {
 
         // Re-initialize
         initialize();
-        
+
         // Reset the stage window's title
         window.setTitle("Yet Another Tic-Tac-Toe Game (" + DataManager.gameMode + ")");
     }
