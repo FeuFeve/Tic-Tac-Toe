@@ -16,13 +16,102 @@ import java.util.concurrent.ThreadLocalRandom;
 
 class AI {
 
-    static int difficultyLevel;
-    static String mediumAIPath = "JavaAI/medium_AI.ser";
-    static String hardAIPath = "JavaAI/hard_AI.ser";
+    private static String mediumAIPath = "JavaAI/medium_AI.ser";
+    private static String hardAIPath = "JavaAI/hard_AI.ser";
 
 
     static int play(int availableTiles) {
-        return ThreadLocalRandom.current().nextInt(0, availableTiles);
+        // Easy AI (random AI)
+        if (DataManager.gameMode.equals("Player vs Easy AI")) {
+            return ThreadLocalRandom.current().nextInt(0, availableTiles);
+        }
+
+        // Else it's either a normal or a hard AI (both using a neural network)
+        // Get the neural network accordingly to the AI difficulty chosen
+        MultiLayerPerceptron net = null;
+
+        // Normal AI (neural network trained 1M times)
+        if (DataManager.gameMode.equals("Player vs Normal AI")) {
+            net = MultiLayerPerceptron.load(mediumAIPath);
+        }
+        else if (DataManager.gameMode.equals("Player vs Hard AI")) {
+            net = MultiLayerPerceptron.load(hardAIPath);
+        }
+
+        // Fill the inputs accordingly to the current game board's state
+        double[] inputs = new double[9];
+        Arrays.fill(inputs, 0);
+        for (int i = 0; i < DataManager.gameBoard.tiles.size(); i++) {
+            for (int j = 0; j < DataManager.gameBoard.tiles.get(0).size(); j++) {
+                // If the tile is owned by the player
+                Player tileOwner = DataManager.gameBoard.tiles.get(i).get(j).owner;
+                if (tileOwner == DataManager.player1) {
+//                    System.out.println("Tile (" + i + ", " + j + ") is possessed by " + tileOwner.pseudo + " and is set to -1");
+                    inputs[i*3 + j] = -1;
+                }
+                // Else if it's owned by the AI
+                else if (tileOwner == DataManager.player2) {
+//                    System.out.println("Tile (" + i + ", " + j + ") is possessed by " + tileOwner.pseudo + " and is set to 1");
+                    inputs[i*3 + j] = 1;
+                }
+            }
+        }
+
+//        System.out.println("Gameboard inputs are: ");
+//        for (int i = 0; i < 3; i++) {
+//            for (int j = 0; j < 3; j++) {
+//                System.out.print(inputs[i*3 + j] + "\t");
+//            }
+//            System.out.println();
+//        }
+//        System.out.println();
+
+        // Get the outputs of the neural network (the weight of each tile)
+        assert net != null;
+        double[] outputs = net.forwardPropagation(inputs);
+
+//        System.out.println("AI outputs are: ");
+//        for (int i = 0; i < 3; i++) {
+//            for (int j = 0; j < 3; j++) {
+//                System.out.print(outputs[i*3 + j] + "\t");
+//            }
+//            System.out.println();
+//        }
+//        System.out.println();
+
+        // Choose the tile that has the more weight
+        int chosenTileIndex;
+        int availableTileIndex = -1;
+        do {
+            chosenTileIndex = 0;
+            double chosenTileWeight = outputs[0];
+            for (int i = 1; i < outputs.length; i++) {
+                if (outputs[i] > chosenTileWeight) {
+                    chosenTileIndex = i;
+                    chosenTileWeight = outputs[i];
+                }
+            }
+
+//            System.out.println("Chosen tile index: " + chosenTileIndex);
+
+            if (inputs[chosenTileIndex] != 0) {
+//                System.out.println("- Tile was already owned.");
+                outputs[chosenTileIndex] = 0;
+            }
+            else {
+                // Get the available tile index instead of the tile index
+                availableTileIndex = chosenTileIndex;
+                for (int i = 0; i < chosenTileIndex; i++) {
+                    if (inputs[i] != 0) {
+                        availableTileIndex--;
+                    }
+                }
+
+//                System.out.println("Available tile index: " + chosenTileIndex);
+            }
+        } while (availableTileIndex == -1);
+
+        return availableTileIndex;
     }
 
     static void initMediumAndHardAIs() {

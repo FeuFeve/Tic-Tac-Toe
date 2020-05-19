@@ -109,7 +109,6 @@ public class GameController {
                         if (play) {
                             // Check if the other player is an AI, in this case, let the AI play
                             if (!DataManager.gameMode.equals("Player vs Player")) {
-                                System.out.println("AI is playing...");
                                 doAITurn(gameBoard, 500);
                             }
                         }
@@ -140,6 +139,7 @@ public class GameController {
 
     private void doPlayerTurn(Tile tile, GameBoard gameBoard) {
         tile.owner = gameBoard.currentPlayer;
+        System.out.println("- " + tile.owner.pseudo + " chose the tile: (" + tile.x + ", " + tile.y + ")");
 
         // Animate the player's shape on the tile
         GameAnimator.animateClickedTile(tile);
@@ -188,8 +188,6 @@ public class GameController {
                                     e.printStackTrace();
                                 }
                             }
-
-                            System.out.println("- The AI chose the tile: (" + tile.x + ", " + tile.y + ")");
 
                             // Make the AI play (Platform.runLater() to avoid "IllegalStateException: Not on FX application thread" from GameAnimator
                             Platform.runLater(() -> doPlayerTurn(tile, gameBoard));
@@ -327,6 +325,9 @@ public class GameController {
 
         // Re-initialize
         initialize();
+        
+        // Reset the stage window's title
+        window.setTitle("Yet Another Tic-Tac-Toe Game (" + DataManager.gameMode + ")");
     }
 
     @FXML
