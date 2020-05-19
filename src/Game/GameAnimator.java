@@ -3,6 +3,7 @@ package Game;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.Timeline;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -21,8 +22,8 @@ class GameAnimator {
         st.play();
     }
 
-    static void animateFadingImage(ImageView image, double from, double to, int durationMillis) {
-        FadeTransition ft = new FadeTransition(Duration.millis(durationMillis), image);
+    static void animateFadingNode(Node node, double from, double to, int durationMillis) {
+        FadeTransition ft = new FadeTransition(Duration.millis(durationMillis), node);
         ft.setFromValue(from);
         ft.setToValue(to);
         ft.setAutoReverse(true);

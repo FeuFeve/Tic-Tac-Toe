@@ -33,6 +33,9 @@ public class MainMenuController {
 
     @FXML private Button playButton;
 
+    @FXML private Label trainingMessage1;
+    @FXML private Label trainingMessage2;
+
     // Vars
     ObservableList<String> gameModes = FXCollections.observableArrayList("Player vs Player", "Player vs Easy AI", "Player vs Normal AI", "Player vs Hard AI");
     static boolean isTraining;
@@ -86,16 +89,24 @@ public class MainMenuController {
         GameAnimator.animateTitle(gameTitle);
 
         // Animate the crosses/circles
-        GameAnimator.animateFadingImage(player1Cross1, 1, 0.1, 2000);
-        GameAnimator.animateFadingImage(player1Cross2, 1, 0.1, 2000);
-        GameAnimator.animateFadingImage(player2Circle1, 1, 0.1, 2000);
-        GameAnimator.animateFadingImage(player2Circle2, 1, 0.1, 2000);
+        GameAnimator.animateFadingNode(player1Cross1, 1, 0.1, 2000);
+        GameAnimator.animateFadingNode(player1Cross2, 1, 0.1, 2000);
+        GameAnimator.animateFadingNode(player2Circle1, 1, 0.1, 2000);
+        GameAnimator.animateFadingNode(player2Circle2, 1, 0.1, 2000);
+
+        // Animate the training messages
+        GameAnimator.animateFadingNode(trainingMessage1, 1, 0.1, 2000);
+        GameAnimator.animateFadingNode(trainingMessage2, 1, 0.1, 2000);
     }
 
     // Disable the possibility to launch a game when training
     void setIsTraining(boolean isTraining) {
         MainMenuController.isTraining = isTraining;
-        Platform.runLater(() -> playButton.setDisable(isTraining));
+        Platform.runLater(() -> {
+            playButton.setDisable(isTraining);
+            trainingMessage1.setVisible(isTraining);
+            trainingMessage2.setVisible(isTraining);
+        });
     }
 
     @FXML

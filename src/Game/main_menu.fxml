@@ -46,5 +46,15 @@
       <ImageView fx:id="player2Circle2" fitHeight="30.0" fitWidth="30.0" layoutX="60.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="142.0">
          <Image url="@../../res/sprites/circle.png" />
       </ImageView>
+      <Label fx:id="trainingMessage1" alignment="CENTER" layoutY="193.0" prefHeight="9.0" prefWidth="96.0" style="-fx-background-color: #FFFF00;" text="AI is still training..." textAlignment="CENTER" textFill="RED" wrapText="true">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label fx:id="trainingMessage2" alignment="CENTER" layoutX="204.0" layoutY="193.0" prefHeight="9.0" prefWidth="96.0" style="-fx-background-color: #FFFF00;" text="AI is still training..." textAlignment="CENTER" textFill="RED" wrapText="true">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
    </AnchorPane>
 </AnchorPane>

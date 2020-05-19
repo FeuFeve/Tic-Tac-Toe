@@ -31,7 +31,7 @@ public class Test {
 			int[] layers = new int[]{ 9, 9, 9 };
 
 			double error = 0.0 ;
-			MultiLayerPerceptron net = new MultiLayerPerceptron(layers, 0.6, new SigmoidalTransferFunction());
+			MultiLayerPerceptron net = new MultiLayerPerceptron(layers, 0.1, new SigmoidalTransferFunction());
 			double samples = 100_000_000 ;
 
 			//TRAINING ...
