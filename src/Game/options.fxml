@@ -40,7 +40,7 @@
             <Font name="Consolas Bold" size="12.0" />
          </font>
       </Button>
-      <Label alignment="CENTER" layoutX="86.0" layoutY="11.0" prefWidth="200.0" text="(games with Medium/Hard AI will always be 3 by 3)" wrapText="true" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="10.0">
+      <Label alignment="CENTER" layoutX="86.0" layoutY="11.0" prefWidth="200.0" text="(games with Medium/Hard AI will always be 3 by 3, max is 10x10)" wrapText="true" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="10.0">
          <font>
             <Font name="Consolas" size="11.0" />
          </font>
