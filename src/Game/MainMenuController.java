@@ -119,7 +119,14 @@ public class MainMenuController {
         // Reset the game board if there is one
         DataManager.gameBoard = null;
 
+        // Reset the game board parameters if launched with Medium/Hard AIs as they only support 3 by 3 game boards
         String gameMode = gameModeBox.getValue();
+        if (gameMode.equals("Player vs Medium AI") || gameMode.equals("Player vs Hard AI")) {
+            DataManager.rows = 3;
+            DataManager.columns = 3;
+            DataManager.winningCombo = 3;
+        }
+
         String player1 = pseudo1.getText();
         String player2 = pseudo2.getText();
 
