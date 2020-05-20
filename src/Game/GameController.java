@@ -306,6 +306,9 @@ public class GameController {
 
     @FXML
     private void loadGame() throws IOException, ClassNotFoundException {
+        // Make sure that the "Save" directory is created
+        DataManager.makeSaveDir();
+
         // Get the stage
         Stage window = (Stage) grid.getScene().getWindow();
 

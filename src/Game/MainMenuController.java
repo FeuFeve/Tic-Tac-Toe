@@ -49,6 +49,7 @@ public class MainMenuController {
         // Train the medium and hard-difficulty AIs if they does not exist, and do it on a background thread so the UI isn't frozen
         Runnable trainAIsTask = () -> {
             setIsTraining(true);
+            System.out.println("Initializing the Medium/Hard AIs...");
             AI.initMediumAndHardAIs();
             setIsTraining(false);
         };

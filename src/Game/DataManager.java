@@ -28,9 +28,13 @@ class DataManager {
         player2 = new Player(pseudo, Sprites.circlePath, Colors.player2Background);
     }
 
+    static void makeSaveDir() {
+        new File(saveDirPath).mkdirs();
+    }
+
     static void save() throws IOException {
         // Make sure that the "Save" directory is created
-        new File(saveDirPath).mkdirs();
+        makeSaveDir();
 
         // Save the data inside of non-static members for quick/easy serialization
         Save save = new Save(rows, columns, winningCombo, gameMode, gameBoard, player1, player2);
