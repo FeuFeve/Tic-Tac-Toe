@@ -142,7 +142,7 @@ public class OptionsController {
         }
 
         // Do nothing if the number is above 10M (to avoid unintentionally long trainings)
-        if (epochs > 10_000_000) {
+        if (epochs > 10_000_000 || epochs < 100) {
             return;
         }
 
@@ -177,7 +177,7 @@ public class OptionsController {
         }
 
         // Do nothing if the number is above 10M (to avoid unintentionally long trainings)
-        if (epochs > 10_000_000) {
+        if (epochs > 10_000_000 || epochs < 100) {
             return;
         }
 
