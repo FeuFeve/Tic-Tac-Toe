@@ -22,12 +22,12 @@ class GameAnimator {
         st.play();
     }
 
-    static void animateFadingNode(Node node, double from, double to, int durationMillis) {
+    static void animateFadingNode(Node node, double from, double to, int durationMillis, int count) {
         FadeTransition ft = new FadeTransition(Duration.millis(durationMillis), node);
         ft.setFromValue(from);
         ft.setToValue(to);
         ft.setAutoReverse(true);
-        ft.setCycleCount(Timeline.INDEFINITE);
+        ft.setCycleCount(count);
         ft.play();
     }
 

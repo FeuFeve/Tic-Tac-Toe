@@ -34,6 +34,9 @@ public class GameController {
 
 
     public void initialize() {
+        // Reset the game board if there is one
+        DataManager.gameBoard = null;
+
         // Init the score table
         pseudo1.setText(DataManager.player1.pseudo);
         pseudo2.setText(DataManager.player2.pseudo);

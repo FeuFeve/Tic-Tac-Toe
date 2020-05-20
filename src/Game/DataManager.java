@@ -16,13 +16,6 @@ class DataManager {
     static String saveDirPath = "Saves/";
 
 
-    static void init(int rows, int columns, int winningCombo) {
-        DataManager.rows = rows;
-        DataManager.columns = columns;
-        DataManager.winningCombo = winningCombo;
-        gameBoard = null;
-    }
-
     static void setGameMode(String gameMode) {
         DataManager.gameMode = gameMode;
     }

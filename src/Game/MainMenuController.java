@@ -1,5 +1,6 @@
 package Game;
 
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +21,7 @@ import java.io.IOException;
 public class MainMenuController {
 
     @FXML private Label gameTitle;
+    @FXML private Label optionsLabel;
 
     @FXML private ChoiceBox<String> gameModeBox;
     @FXML private TextField pseudo1;
@@ -90,14 +92,14 @@ public class MainMenuController {
         GameAnimator.animateTitle(gameTitle);
 
         // Animate the crosses/circles
-        GameAnimator.animateFadingNode(player1Cross1, 1, 0.1, 2000);
-        GameAnimator.animateFadingNode(player1Cross2, 1, 0.1, 2000);
-        GameAnimator.animateFadingNode(player2Circle1, 1, 0.1, 2000);
-        GameAnimator.animateFadingNode(player2Circle2, 1, 0.1, 2000);
+        GameAnimator.animateFadingNode(player1Cross1, 1, 0.1, 2000, Timeline.INDEFINITE);
+        GameAnimator.animateFadingNode(player1Cross2, 1, 0.1, 2000, Timeline.INDEFINITE);
+        GameAnimator.animateFadingNode(player2Circle1, 1, 0.1, 2000, Timeline.INDEFINITE);
+        GameAnimator.animateFadingNode(player2Circle2, 1, 0.1, 2000, Timeline.INDEFINITE);
 
         // Animate the training messages
-        GameAnimator.animateFadingNode(trainingMessage1, 1, 0.1, 2000);
-        GameAnimator.animateFadingNode(trainingMessage2, 1, 0.1, 2000);
+        GameAnimator.animateFadingNode(trainingMessage1, 1, 0.1, 2000, Timeline.INDEFINITE);
+        GameAnimator.animateFadingNode(trainingMessage2, 1, 0.1, 2000, Timeline.INDEFINITE);
     }
 
     // Disable the possibility to launch a game or go to the options when initializing the medium/hard AIs
@@ -106,6 +108,7 @@ public class MainMenuController {
         Platform.runLater(() -> {
             playButton.setDisable(isTraining);
             optionsButton.setDisable(isTraining);
+            optionsLabel.setVisible(isTraining);
             trainingMessage1.setVisible(isTraining);
             trainingMessage2.setVisible(isTraining);
         });
@@ -113,9 +116,6 @@ public class MainMenuController {
 
     @FXML
     private void startGame() throws IOException {
-        // TODO: modify
-        DataManager.init(3, 3, 3);
-
         String gameMode = gameModeBox.getValue();
         String player1 = pseudo1.getText();
         String player2 = pseudo2.getText();

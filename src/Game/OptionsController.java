@@ -21,12 +21,12 @@ public class OptionsController {
 
     @FXML private Button backToMainMenuButton;
 
-    @FXML private TextField rowsEntry;
-    @FXML private TextField columnsEntry;
+    @FXML private TextField rowsAndColsEntry;
     @FXML private TextField comboEntry;
     @FXML private TextField mediumAITrainsEntry;
     @FXML private TextField hardAITrainsEntry;
 
+    @FXML private Label savedPopUp;
     @FXML private Label mediumAIGamesCount;
     @FXML private Label hardAIGamesCount;
 
@@ -40,8 +40,7 @@ public class OptionsController {
     @FXML
     private void initialize() {
         // Initialize game board parameters
-        rowsEntry.setText(String.valueOf(DataManager.rows));
-        columnsEntry.setText(String.valueOf(DataManager.columns));
+        rowsAndColsEntry.setText(String.valueOf(DataManager.rows));
         comboEntry.setText(String.valueOf(DataManager.winningCombo));
 
         // Get the AIs
@@ -71,11 +70,44 @@ public class OptionsController {
         Scene gameScene = new Scene(gameRoot);
 
         // Get the stage
-        Stage window = (Stage) rowsEntry.getScene().getWindow();
+        Stage window = (Stage) backToMainMenuButton.getScene().getWindow();
 
         // Set the game scene to the stage
         window.setScene(gameScene);
         window.show();
         window.setTitle("Yet Another Tic-Tac-Toe Game");
+    }
+
+    @FXML
+    private void saveOptions() {
+        try {
+            int rowsAndColumns = Integer.parseInt(rowsAndColsEntry.getText());
+            int combo = Integer.parseInt(comboEntry.getText());
+            if (combo > rowsAndColumns) {
+                return;
+            }
+
+            DataManager.rows = rowsAndColumns;
+            DataManager.columns = rowsAndColumns;
+            DataManager.winningCombo = combo;
+
+            GameAnimator.animateFadingNode(savedPopUp, 0, 1, 500, 2);
+            System.out.println("Saved the options.");
+        } catch (Exception ignored) {  }
+    }
+
+    @FXML
+    private void resetOptions() {
+        try {
+            DataManager.rows = 3;
+            DataManager.columns = 3;
+            DataManager.winningCombo = 3;
+
+            rowsAndColsEntry.setText("3");
+            comboEntry.setText("3");
+
+            GameAnimator.animateFadingNode(savedPopUp, 0, 1, 2000, 1);
+            System.out.println("Options reset.");
+        } catch (Exception ignored) {  }
     }
 }
