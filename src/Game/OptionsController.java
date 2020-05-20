@@ -102,7 +102,7 @@ public class OptionsController {
         try {
             int rowsAndColumns = Integer.parseInt(rowsAndColsEntry.getText());
             int combo = Integer.parseInt(comboEntry.getText());
-            if (combo > rowsAndColumns || rowsAndColumns > 10) {
+            if (combo > rowsAndColumns || rowsAndColumns > 10 || rowsAndColumns < 3 || combo < 3) {
                 return;
             }
 
