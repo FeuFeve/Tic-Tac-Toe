@@ -51,8 +51,15 @@ class DataManager {
     }
 
     static void load(File file) throws IOException, ClassNotFoundException {
-        FileInputStream fileIn = new FileInputStream(file.getPath());
-        ObjectInputStream in = new ObjectInputStream(fileIn);
+        FileInputStream fileIn;
+        ObjectInputStream in;
+        try {
+            fileIn = new FileInputStream(file.getPath());
+            in = new ObjectInputStream(fileIn);
+        } catch (StreamCorruptedException e) {
+            System.out.println("Couldn't load the file.");
+            return;
+        }
 
         Save save = (Save) in.readObject();
         rows = save.rows;
