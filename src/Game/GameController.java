@@ -34,9 +34,6 @@ public class GameController {
 
 
     public void initialize() {
-        // Reset the game board if there is one
-        DataManager.gameBoard = null;
-
         // Init the score table
         pseudo1.setText(DataManager.player1.pseudo);
         pseudo2.setText(DataManager.player2.pseudo);
@@ -67,6 +64,8 @@ public class GameController {
     }
 
     private void initializeGame(GameBoard gameBoard) {
+        grid.getChildren().clear();
+
         play = true;
         int rows = DataManager.rows;
         int columns = DataManager.columns;
@@ -293,9 +292,11 @@ public class GameController {
     @FXML
     private void launchNewGame() {
         System.out.println("##############################");
+        System.out.println(DataManager.rows + " " + DataManager.columns + " " + DataManager.winningCombo);
         gridToppingPane.getChildren().clear();
         gridToppingPane.setDisable(true);
-        initializeGame(null);
+        DataManager.gameBoard = null;
+        initialize();
     }
 
     @FXML

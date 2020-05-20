@@ -86,8 +86,10 @@ class GameBoard implements Serializable {
     void initPanes() {
         for (List<Tile> row : tiles) {
             for (Tile tile : row) {
+                System.out.print("X ");
                 tile.initTransients();
             }
+            System.out.println();
         }
     }
 

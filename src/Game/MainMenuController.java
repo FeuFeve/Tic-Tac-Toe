@@ -116,6 +116,9 @@ public class MainMenuController {
 
     @FXML
     private void startGame() throws IOException {
+        // Reset the game board if there is one
+        DataManager.gameBoard = null;
+
         String gameMode = gameModeBox.getValue();
         String player1 = pseudo1.getText();
         String player2 = pseudo2.getText();

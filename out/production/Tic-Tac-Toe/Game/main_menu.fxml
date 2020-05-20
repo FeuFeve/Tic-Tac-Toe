@@ -46,7 +46,7 @@
                </image>
             </ImageView>
          </graphic></Button>
-      <Label alignment="CENTER" layoutX="258.0" layoutY="34.0" text="Options">
+      <Label fx:id="optionsLabel" alignment="CENTER" layoutX="258.0" layoutY="34.0" text="Options">
          <font>
             <Font name="Consolas" size="10.0" />
          </font>
