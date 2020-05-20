@@ -98,10 +98,11 @@ public class OptionsController {
 
     @FXML
     private void saveOptions() {
+        // Only save the options when the number of rows/columns is 10 or under, and when the combo is less than or equal to the number of rows/columns
         try {
             int rowsAndColumns = Integer.parseInt(rowsAndColsEntry.getText());
             int combo = Integer.parseInt(comboEntry.getText());
-            if (combo > rowsAndColumns) {
+            if (combo > rowsAndColumns || rowsAndColumns > 10) {
                 return;
             }
 
@@ -124,14 +125,23 @@ public class OptionsController {
             rowsAndColsEntry.setText("3");
             comboEntry.setText("3");
 
-            GameAnimator.animateFadingNode(savedPopUp, 0, 1, 2000, 1);
+            GameAnimator.animateFadingNode(savedPopUp, 0, 1, 500, 2);
             System.out.println("Options reset.");
         } catch (Exception ignored) {  }
     }
 
     @FXML
     private void trainMediumAI() {
-        int epochs = Integer.parseInt(mediumAITrainsEntry.getText());
+        int epochs;
+
+        // Do nothing if it is not a valid number
+        try {
+            epochs = Integer.parseInt(mediumAITrainsEntry.getText());
+        } catch (NumberFormatException e) {
+            return;
+        }
+
+        // Do nothing if the number is above 10M (to avoid unintentionally long trainings)
         if (epochs > 10_000_000) {
             return;
         }
@@ -157,7 +167,16 @@ public class OptionsController {
 
     @FXML
     private void trainHardAI() {
-        int epochs = Integer.parseInt(hardAITrainsEntry.getText());
+        int epochs;
+
+        // Do nothing if it is not a valid number
+        try {
+            epochs = Integer.parseInt(hardAITrainsEntry.getText());
+        } catch (NumberFormatException e) {
+            return;
+        }
+
+        // Do nothing if the number is above 10M (to avoid unintentionally long trainings)
         if (epochs > 10_000_000) {
             return;
         }
