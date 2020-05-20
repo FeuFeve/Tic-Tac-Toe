@@ -33,6 +33,12 @@ public class MainMenuController {
     @FXML private ImageView player2Circle1;
     @FXML private ImageView player2Circle2;
 
+    // Splash examples
+    @FXML private ImageView splashExample1;
+    @FXML private ImageView splashExample2;
+    @FXML private ImageView splashExample3;
+    @FXML private ImageView splashExample4;
+
     @FXML private Button playButton;
     @FXML private Button optionsButton;
 
@@ -98,6 +104,12 @@ public class MainMenuController {
         GameAnimator.animateFadingNode(player1Cross2, 1, 0.1, 2000, Timeline.INDEFINITE);
         GameAnimator.animateFadingNode(player2Circle1, 1, 0.1, 2000, Timeline.INDEFINITE);
         GameAnimator.animateFadingNode(player2Circle2, 1, 0.1, 2000, Timeline.INDEFINITE);
+
+        // Animate the splash examples
+        GameAnimator.animateFadingNode(splashExample1, 0, 1, 3000, Timeline.INDEFINITE);
+        GameAnimator.animateFadingNode(splashExample2, 0, 1, 2500, Timeline.INDEFINITE);
+        GameAnimator.animateFadingNode(splashExample3, 0, 1, 4000, Timeline.INDEFINITE);
+        GameAnimator.animateFadingNode(splashExample4, 0, 1, 5000, Timeline.INDEFINITE);
 
         // Animate the training messages
         GameAnimator.animateFadingNode(trainingMessage1, 1, 0.1, 2000, Timeline.INDEFINITE);
