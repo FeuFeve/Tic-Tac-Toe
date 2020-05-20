@@ -41,13 +41,17 @@ class DataManager {
         String savePath = saveDirPath + player1.pseudo + " vs " + player2.pseudo + ".ser";
 
         // Serialize the data
-        FileOutputStream fileOut = new FileOutputStream(savePath);
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        out.writeObject(save);
-        out.close();
-        fileOut.close();
+        try {
+            FileOutputStream fileOut = new FileOutputStream(savePath);
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(save);
+            out.close();
+            fileOut.close();
 
-        System.out.println("Saved the game in: \"" + savePath + "\"");
+            System.out.println("Saved the game in: \"" + savePath + "\"");
+        } catch (FileNotFoundException e) {
+            System.out.println("One of the player's names has invalid characters, couldn't save the file.");
+        }
     }
 
     static void load(File file) throws IOException, ClassNotFoundException {

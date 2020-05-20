@@ -50,7 +50,7 @@
          </Label>
          <TextField fx:id="pseudo1" alignment="CENTER" layoutX="26.0" layoutY="111.0" promptText="Player 1" style="-fx-background-color: #FF1000;" />
          <TextField fx:id="pseudo2" alignment="CENTER" layoutX="25.0" layoutY="144.0" promptText="Player 2" style="-fx-background-color: #00FF73;" />
-         <Button fx:id="playButton" layoutX="52.0" layoutY="188.0" mnemonicParsing="false" onAction="#startGame" prefHeight="25.0" prefWidth="96.0" text="Play !" />
+         <Button fx:id="playButton" layoutX="52.0" layoutY="188.0" mnemonicParsing="false" onAction="#startGame" prefHeight="25.0" prefWidth="96.0" text="Play" />
       </Pane>
       <Button fx:id="optionsButton" layoutX="271.0" layoutY="5.0" maxHeight="24.0" maxWidth="24.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#goToOptions" prefHeight="24.0" prefWidth="24.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <graphic>
