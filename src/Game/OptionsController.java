@@ -18,6 +18,8 @@ import java.io.IOException;
 public class OptionsController {
 
     @FXML private Button backToMainMenuButton;
+    @FXML private Button trainMediumAIButton;
+    @FXML private Button trainHardAIButton;
 
     @FXML private TextField rowsAndColsEntry;
     @FXML private TextField comboEntry;
@@ -68,10 +70,14 @@ public class OptionsController {
         });
     }
 
-    // Disable the possibility to launch a game or go to the options when initializing the medium/hard AIs
+    // Disable the possibility go back to the main menu or launch another train when already training an AI
     void setIsTraining(boolean isTraining) {
         OptionsController.isTraining = isTraining;
-        Platform.runLater(() -> backToMainMenuButton.setDisable(isTraining));
+        Platform.runLater(() -> {
+            backToMainMenuButton.setDisable(isTraining);
+            trainMediumAIButton.setDisable(isTraining);
+            trainHardAIButton.setDisable(isTraining);
+        });
     }
 
     @FXML
@@ -129,12 +135,22 @@ public class OptionsController {
             return;
         }
 
-        setIsTraining(true);
-        int totalEpochs = AI.train(AI.mediumAIPath, epochs, false);
-        setIsTraining(false);
+        // Train the medium difficulty AI on a background thread so the UI isn't frozen
+        Runnable trainAITask = () -> {
+            setIsTraining(true);
+            int totalEpochs = AI.train(AI.mediumAIPath, epochs, false);
+            setIsTraining(false);
 
-        mediumAITrainsEntry.setText("");
-        mediumAIGamesCount.setText(NumberFormater.formatNumber(totalEpochs));
+            // Force to run this lines on the UI thread
+            Platform.runLater(() -> {
+                mediumAITrainsEntry.setText("");
+                mediumAIGamesCount.setText(NumberFormater.formatNumber(totalEpochs));
+            });
+        };
+        Thread trainAIThread = new Thread(trainAITask);
+        trainAIThread.start();
+
+        launchProgressBarListener(trainAIThread);
     }
 
     @FXML
@@ -144,11 +160,32 @@ public class OptionsController {
             return;
         }
 
-        setIsTraining(true);
-        int totalEpochs = AI.train(AI.hardAIPath, epochs, false);
-        setIsTraining(false);
+        // Train the medium difficulty AI on a background thread so the UI isn't frozen
+        Runnable trainAITask = () -> {
+            setIsTraining(true);
+            int totalEpochs = AI.train(AI.hardAIPath, epochs, false);
+            setIsTraining(false);
 
-        hardAITrainsEntry.setText("");
-        hardAIGamesCount.setText(NumberFormater.formatNumber(totalEpochs));
+            // Force to run this lines on the UI thread
+            Platform.runLater(() -> {
+                hardAITrainsEntry.setText("");
+                hardAIGamesCount.setText(NumberFormater.formatNumber(totalEpochs));
+            });
+        };
+        Thread trainAIThread = new Thread(trainAITask);
+        trainAIThread.start();
+
+        launchProgressBarListener(trainAIThread);
+    }
+
+    // Actualise the progress bar during the training
+    private void launchProgressBarListener(Thread trainAIThread) {
+        Runnable listenToAIProgressTask = () -> {
+            while (trainAIThread.isAlive()) {
+                trainingSessionProgress.setProgress((double) AI.currentTrainingCount / AI.currentTrainingTotal);
+            }
+        };
+        Thread listenToAIProgressThread = new Thread(listenToAIProgressTask);
+        listenToAIProgressThread.start();
     }
 }

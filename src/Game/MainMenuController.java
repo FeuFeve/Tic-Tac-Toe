@@ -47,12 +47,12 @@ public class MainMenuController {
     @FXML
     private void initialize() {
         // Train the medium and hard-difficulty AIs if they does not exist, and do it on a background thread so the UI isn't frozen
-        Runnable trainsAIsTask = () -> {
+        Runnable trainAIsTask = () -> {
             setIsTraining(true);
             AI.initMediumAndHardAIs();
             setIsTraining(false);
         };
-        Thread trainAIsThread = new Thread(trainsAIsTask);
+        Thread trainAIsThread = new Thread(trainAIsTask);
         trainAIsThread.start();
 
         // Init the game mode choice box
