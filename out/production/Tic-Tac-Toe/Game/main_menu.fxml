@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
-<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -9,12 +8,30 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="420.0" prefWidth="600.0" style="-fx-background-color: #13132C;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Game.MainMenuController">
-   <Canvas height="200.0" width="200.0" />
    <Label fx:id="gameTitle" alignment="CENTER" contentDisplay="CENTER" layoutY="27.0" prefHeight="46.0" prefWidth="600.0" text="Y e t   A n o t h e r   T i c - T a c - T o e   G a m e" textAlignment="CENTER" textFill="#ba4e1c" wrapText="true">
       <font>
          <Font name="System Bold" size="26.0" />
       </font>
    </Label>
+   <ImageView fx:id="splashExample1" fitHeight="120.0" fitWidth="120.0" layoutX="12.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true" rotate="11.4">
+      <image>
+         <Image url="@../../res/sprites/example_1.png" />
+      </image></ImageView>
+   <ImageView fx:id="splashExample2" fitHeight="100.0" fitWidth="100.0" layoutX="472.0" layoutY="114.0" pickOnBounds="true" preserveRatio="true" rotate="-20.7">
+      <image>
+         <Image url="@../../res/sprites/example_2.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="splashExample3" fitHeight="90.0" fitWidth="90.0" layoutX="27.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true" rotate="-31.1">
+      <image>
+         <Image url="@../../res/sprites/example_3.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="splashExample4" fitHeight="130.0" fitWidth="130.0" layoutX="448.0" layoutY="265.0" pickOnBounds="true" preserveRatio="true" rotate="-68.3">
+      <image>
+         <Image url="@../../res/sprites/example_4.png" />
+      </image>
+   </ImageView>
    <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #F2EFE9; -fx-opacity: 0.75;" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="150.0" AnchorPane.rightAnchor="150.0" AnchorPane.topAnchor="100.0">
       <Pane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="0.0">
          <effect>
