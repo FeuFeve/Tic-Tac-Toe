@@ -8,10 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.concurrent.ThreadLocalRandom;
 
 class AI {
@@ -139,7 +136,7 @@ class AI {
         }
     }
 
-    static void train(String path, int epochs, boolean overridePrevious) {
+    static int train(String path, int epochs, boolean deletePrevious) {
         double startTime = System.nanoTime();
 
         currentTrainingCount = 0;
@@ -150,13 +147,10 @@ class AI {
         System.out.println("------------------------------");
 
         // Format big numbers into more readable ones
-        Locale locale  = new Locale("en", "US");
-        String pattern = "###,###.###";
-        DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(locale);
-        decimalFormat.applyPattern(pattern);
-        System.out.println("Beginning training for " + decimalFormat.format(epochs) + " epochs...");
+        System.out.println("Beginning training for " + NumberFormater.formatNumber(epochs) + " epochs...");
 
         // Beginning
+        int total = 0;
         try {
             int[] layers = new int[]{ 9, 9, 9 };
 
@@ -164,7 +158,7 @@ class AI {
 
             // Create a new multi layer perceptron if we want to override the previous
             MultiLayerPerceptron net;
-            if (overridePrevious) {
+            if (deletePrevious) {
                 net = new MultiLayerPerceptron(layers, 0.1, new SigmoidalTransferFunction());
             }
             // Else, load the previous (if there is one) and continue the training from where we left
@@ -209,7 +203,7 @@ class AI {
                 }
 
                 if ( i % (epochs / 100) == 0) {
-                    System.out.println("Error at step " + decimalFormat.format(i) + " is " + (error/(double)i));
+                    System.out.println("Error at step " + NumberFormater.formatNumber(i) + " is " + (error/(double)i));
                 }
             }
 
@@ -221,6 +215,8 @@ class AI {
             // Save the training
             net.trainingCount += epochs;
             net.save(path);
+
+            total = net.trainingCount;
         }
         catch (Exception e) {
             System.out.println("AI.train()");
@@ -230,5 +226,7 @@ class AI {
 
         double endTime = System.nanoTime();
         System.out.println("Done in: " + (endTime - startTime) / 1_000_000_000);
+
+        return total;
     }
 }

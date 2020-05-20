@@ -41,7 +41,7 @@ public class MainMenuController {
 
     // Vars
     ObservableList<String> gameModes = FXCollections.observableArrayList("Player vs Player", "Player vs Easy AI", "Player vs Medium AI", "Player vs Hard AI");
-    static boolean isTraining;
+    private static boolean isTraining;
 
 
     @FXML
@@ -108,7 +108,7 @@ public class MainMenuController {
         Platform.runLater(() -> {
             playButton.setDisable(isTraining);
             optionsButton.setDisable(isTraining);
-            optionsLabel.setVisible(isTraining);
+            optionsLabel.setVisible(!isTraining);
             trainingMessage1.setVisible(isTraining);
             trainingMessage2.setVisible(isTraining);
         });

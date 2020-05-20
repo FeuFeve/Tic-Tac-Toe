@@ -10,12 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 public class OptionsController {
 
@@ -36,6 +34,8 @@ public class OptionsController {
     MultiLayerPerceptron mediumAI;
     MultiLayerPerceptron hardAI;
 
+    private static boolean isTraining;
+
 
     @FXML
     private void initialize() {
@@ -48,18 +48,29 @@ public class OptionsController {
         hardAI = MultiLayerPerceptron.load(AI.hardAIPath);
 
         // Set the AIs totals
-        // Format big numbers into more readable ones
-        Locale locale  = new Locale("en", "US");
-        String pattern = "###,###.###";
-        DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getNumberInstance(locale);
-        decimalFormat.applyPattern(pattern);
-        mediumAIGamesCount.setText(decimalFormat.format(mediumAI.trainingCount));
-        hardAIGamesCount.setText(decimalFormat.format(hardAI.trainingCount));
+        mediumAIGamesCount.setText(NumberFormater.formatNumber(mediumAI.trainingCount));
+        hardAIGamesCount.setText(NumberFormater.formatNumber(hardAI.trainingCount));
+
+        // Prevent a NullPointerException happening because the current code is inside of the "initialize()" function
+        Platform.runLater(() -> {
+            Scene scene = backToMainMenuButton.getScene();
+
+            // Press the <Enter> key to launch the game with the current parameters
+            scene.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ESCAPE && !isTraining) {
+                    try {
+                        loadMainMenu();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        });
     }
 
     // Disable the possibility to launch a game or go to the options when initializing the medium/hard AIs
     void setIsTraining(boolean isTraining) {
-        MainMenuController.isTraining = isTraining;
+        OptionsController.isTraining = isTraining;
         Platform.runLater(() -> backToMainMenuButton.setDisable(isTraining));
     }
 
@@ -109,5 +120,35 @@ public class OptionsController {
             GameAnimator.animateFadingNode(savedPopUp, 0, 1, 2000, 1);
             System.out.println("Options reset.");
         } catch (Exception ignored) {  }
+    }
+
+    @FXML
+    private void trainMediumAI() {
+        int epochs = Integer.parseInt(mediumAITrainsEntry.getText());
+        if (epochs > 10_000_000) {
+            return;
+        }
+
+        setIsTraining(true);
+        int totalEpochs = AI.train(AI.mediumAIPath, epochs, false);
+        setIsTraining(false);
+
+        mediumAITrainsEntry.setText("");
+        mediumAIGamesCount.setText(NumberFormater.formatNumber(totalEpochs));
+    }
+
+    @FXML
+    private void trainHardAI() {
+        int epochs = Integer.parseInt(hardAITrainsEntry.getText());
+        if (epochs > 10_000_000) {
+            return;
+        }
+
+        setIsTraining(true);
+        int totalEpochs = AI.train(AI.hardAIPath, epochs, false);
+        setIsTraining(false);
+
+        hardAITrainsEntry.setText("");
+        hardAIGamesCount.setText(NumberFormater.formatNumber(totalEpochs));
     }
 }
