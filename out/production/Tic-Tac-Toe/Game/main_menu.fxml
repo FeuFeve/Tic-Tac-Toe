@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
@@ -34,6 +35,22 @@
          <TextField fx:id="pseudo2" alignment="CENTER" layoutX="25.0" layoutY="144.0" promptText="Player 2" style="-fx-background-color: #00FF73;" />
          <Button fx:id="playButton" layoutX="52.0" layoutY="188.0" mnemonicParsing="false" onAction="#startGame" prefHeight="25.0" prefWidth="96.0" text="Play !" />
       </Pane>
+      <Button fx:id="optionsButton" layoutX="271.0" layoutY="5.0" maxHeight="24.0" maxWidth="24.0" minHeight="24.0" minWidth="24.0" mnemonicParsing="false" onAction="#goToOptions" prefHeight="24.0" prefWidth="24.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <graphic>
+            <ImageView fitHeight="24.0" fitWidth="24.0" focusTraversable="true" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../../res/sprites/option_icon.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <Label alignment="CENTER" layoutX="258.0" layoutY="34.0" text="Options">
+         <font>
+            <Font name="Consolas" size="10.0" />
+         </font>
+      </Label>
       <ImageView fx:id="player1Cross1" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="109.0">
          <Image url="@../../res/sprites/cross.png" />
       </ImageView>

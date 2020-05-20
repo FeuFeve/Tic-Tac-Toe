@@ -4,9 +4,9 @@ import java.io.*;
 
 class DataManager {
 
-    static int rows;
-    static int columns;
-    static int winningCombo;
+    static int rows = 3;
+    static int columns = 3;
+    static int winningCombo = 3;
 
     static String gameMode;
     static GameBoard gameBoard;

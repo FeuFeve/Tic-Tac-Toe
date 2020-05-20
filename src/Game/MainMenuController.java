@@ -32,12 +32,13 @@ public class MainMenuController {
     @FXML private ImageView player2Circle2;
 
     @FXML private Button playButton;
+    @FXML private Button optionsButton;
 
     @FXML private Label trainingMessage1;
     @FXML private Label trainingMessage2;
 
     // Vars
-    ObservableList<String> gameModes = FXCollections.observableArrayList("Player vs Player", "Player vs Easy AI", "Player vs Normal AI", "Player vs Hard AI");
+    ObservableList<String> gameModes = FXCollections.observableArrayList("Player vs Player", "Player vs Easy AI", "Player vs Medium AI", "Player vs Hard AI");
     static boolean isTraining;
 
 
@@ -99,11 +100,12 @@ public class MainMenuController {
         GameAnimator.animateFadingNode(trainingMessage2, 1, 0.1, 2000);
     }
 
-    // Disable the possibility to launch a game when training
+    // Disable the possibility to launch a game or go to the options when initializing the medium/hard AIs
     void setIsTraining(boolean isTraining) {
         MainMenuController.isTraining = isTraining;
         Platform.runLater(() -> {
             playButton.setDisable(isTraining);
+            optionsButton.setDisable(isTraining);
             trainingMessage1.setVisible(isTraining);
             trainingMessage2.setVisible(isTraining);
         });
@@ -143,5 +145,20 @@ public class MainMenuController {
         window.setScene(gameScene);
         window.show();
         window.setTitle("Yet Another Tic-Tac-Toe Game (" + gameMode + ")");
+    }
+
+    @FXML
+    private void goToOptions() throws IOException {
+        // Get the game scene
+        Parent gameRoot = FXMLLoader.load(getClass().getResource("options.fxml"));
+        Scene gameScene = new Scene(gameRoot);
+
+        // Get the stage
+        Stage window = (Stage) gameTitle.getScene().getWindow();
+
+        // Set the game scene to the stage
+        window.setScene(gameScene);
+        window.show();
+        window.setTitle("Yet Another Tic-Tac-Toe Game (Options)");
     }
 }

@@ -12,6 +12,7 @@ public class MultiLayerPerceptron implements Cloneable, Serializable {
 	Layer[]				fLayers;
 	double				fLearningRate = 0.6;
 	TransferFunction 	fTransferFunction;
+	public int 			trainingCount;
 
 	
 	public MultiLayerPerceptron(int[] layers, double learningRate, TransferFunction fun) {

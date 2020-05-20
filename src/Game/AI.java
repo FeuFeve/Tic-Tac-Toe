@@ -16,8 +16,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 class AI {
 
-    private static String mediumAIPath = "JavaAI/medium_AI.ser";
-    private static String hardAIPath = "JavaAI/hard_AI.ser";
+    static String mediumAIPath = "JavaAI/medium_AI.ser";
+    static String hardAIPath = "JavaAI/hard_AI.ser";
+
+    static int currentTrainingCount;
+    static int currentTrainingTotal;
 
 
     static int play(int availableTiles) {
@@ -26,12 +29,12 @@ class AI {
             return ThreadLocalRandom.current().nextInt(0, availableTiles);
         }
 
-        // Else it's either a normal or a hard AI (both using a neural network)
+        // Else it's either a medium or a hard AI (both using a neural network)
         // Get the neural network accordingly to the AI difficulty chosen
         MultiLayerPerceptron net = null;
 
-        // Normal AI (neural network trained 1M times)
-        if (DataManager.gameMode.equals("Player vs Normal AI")) {
+        // Medium AI (neural network trained 1M times)
+        if (DataManager.gameMode.equals("Player vs Medium AI")) {
             net = MultiLayerPerceptron.load(mediumAIPath);
         }
         else if (DataManager.gameMode.equals("Player vs Hard AI")) {
@@ -139,6 +142,9 @@ class AI {
     static void train(String path, int epochs, boolean overridePrevious) {
         double startTime = System.nanoTime();
 
+        currentTrainingCount = 0;
+        currentTrainingTotal = epochs;
+
         System.out.println("------------------------------");
         System.out.println("--         TRAINING         --");
         System.out.println("------------------------------");
@@ -171,6 +177,8 @@ class AI {
 
             //TRAINING ...
             for (int i = 0; i < epochs; i++) {
+                currentTrainingCount++;
+
                 // Generate a game where either the AI or the player has won
                 do {
                     Trainer.reset();
@@ -211,6 +219,7 @@ class AI {
             System.out.println("Learning completed!");
 
             // Save the training
+            net.trainingCount += epochs;
             net.save(path);
         }
         catch (Exception e) {
