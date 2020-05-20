@@ -29,6 +29,7 @@ public class OptionsController {
     @FXML private Label savedPopUp;
     @FXML private Label mediumAIGamesCount;
     @FXML private Label hardAIGamesCount;
+    @FXML private Label progressPercentage;
 
     @FXML private ProgressBar trainingSessionProgress;
 
@@ -148,6 +149,7 @@ public class OptionsController {
             });
         };
         Thread trainAIThread = new Thread(trainAITask);
+        trainAIThread.setDaemon(true);
         trainAIThread.start();
 
         launchProgressBarListener(trainAIThread);
@@ -173,6 +175,7 @@ public class OptionsController {
             });
         };
         Thread trainAIThread = new Thread(trainAITask);
+        trainAIThread.setDaemon(true);
         trainAIThread.start();
 
         launchProgressBarListener(trainAIThread);
@@ -181,11 +184,24 @@ public class OptionsController {
     // Actualise the progress bar during the training
     private void launchProgressBarListener(Thread trainAIThread) {
         Runnable listenToAIProgressTask = () -> {
+            int currentProgress = 0;
             while (trainAIThread.isAlive()) {
-                trainingSessionProgress.setProgress((double) AI.currentTrainingCount / AI.currentTrainingTotal);
+                double progress = (double)AI.currentTrainingCount / AI.currentTrainingTotal;
+                trainingSessionProgress.setProgress(progress);
+
+                if (progress * 100 > currentProgress) {
+                    int finalCurrentProgress = currentProgress;
+                    Platform.runLater(() -> progressPercentage.setText(finalCurrentProgress + "%"));
+                    currentProgress++;
+                }
+            }
+
+            if (AI.currentTrainingCount == AI.currentTrainingTotal) {
+                Platform.runLater(() -> progressPercentage.setText("100%"));
             }
         };
         Thread listenToAIProgressThread = new Thread(listenToAIProgressTask);
+        listenToAIProgressThread.setDaemon(true);
         listenToAIProgressThread.start();
     }
 }

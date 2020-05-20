@@ -53,6 +53,7 @@ public class MainMenuController {
             setIsTraining(false);
         };
         Thread trainAIsThread = new Thread(trainAIsTask);
+        trainAIsThread.setDaemon(true);
         trainAIsThread.start();
 
         // Init the game mode choice box

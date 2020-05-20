@@ -1,6 +1,7 @@
 package Game;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -16,6 +17,12 @@ public class Main extends Application {
         primaryStage.setTitle("Yet Another Tic-Tac-Toe Game");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(e -> {
+            System.out.println("Exiting the application.");
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
     public static void main(String[] args) {
